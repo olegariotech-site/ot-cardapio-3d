@@ -1,10 +1,15 @@
-import {CAMERA,cameraFor,A11Y_PT,applyARMode,restoreCamera,localDiagnostics,observeNativeLaunch} from './viewer-policy.js?v=0.3.0';
-import {assetPath} from './asset-policy.js?v=0.3.0';
+import {plateScale} from './ar-spatial.js?v=0.3.1';
+import {installSpatialUI} from './spatial-ui.js?v=0.3.1';
+import {CAMERA,cameraFor,A11Y_PT,applyARMode,restoreCamera,localDiagnostics,observeNativeLaunch} from './viewer-policy.js?v=0.3.1';
+import {assetPath} from './asset-policy.js?v=0.3.1';
 export function createExperience(onLock=()=>{}){
 const $=id=>document.getElementById(id);
 const stage=$('stage'),loadButton=$('load-model'),arButton=$('launch-ar'),status=$('status'),progress=$('download-progress');
 const diagnostics=localDiagnostics();
-let scaleMode='real';
+let scaleMode='real',spatial,platePreviousARMode='auto';
+function validPlate(){return $('plate-diameter').checkValidity()&&$('plate-diameter').value!==''&&$('plate-coverage').checkValidity();}
+function scaleGeometry(){const measured=ready&&viewer?.getDimensions();return {...product.physical,depthM:measured?.z??product.physical.depthM};}
+function scaleFactor(){return scaleMode==='plate'&&validPlate()?plateScale(scaleGeometry(),$('plate-diameter').value,$('plate-coverage').value):1;}
 let viewer,ready=false,loading=false,enginePromise,engineFailed=false,generation=0,attempts=0,timeout,controller,product,loadStarted=0,arActive=false,nativePending=false,launchBusy=false,arHint,keyboardInitiated=false;
 const say=(message,state='normal')=>{status.textContent=message;status.dataset.state=state;};
 const pauseRotation=()=>{if(viewer)viewer.autoRotate=false;$('spin').setAttribute('aria-pressed','false');};
@@ -13,7 +18,7 @@ function engine(){
   if(!enginePromise){
     const probe=document.createElement('canvas'),gl=probe.getContext('webgl2');
     if(!gl)throw Error('webgl-unavailable');gl.getExtension('WEBGL_lose_context')?.loseContext();
-    enginePromise=import('./vendor/model-viewer.min.js').then(async()=>{await customElements.whenDefined('model-viewer');customElements.get('model-viewer').modelCacheSize=0;});
+    enginePromise=import('./vendor/model-viewer-ot-v031.min.js').then(async()=>{await customElements.whenDefined('model-viewer');customElements.get('model-viewer').modelCacheSize=0;});
     enginePromise.catch(()=>{engineFailed=true;});
   }return enginePromise;
 }
@@ -22,7 +27,7 @@ function updateAR(){
   $('scale-controls').disabled=locked||!ready; $('ar-mode').disabled=locked||!ready;
   if(product?.status==='photo-only'){arButton.disabled=true;$('ar-help').textContent='Este produto está disponível em fotografia. O 3D aguarda digitalização.';return;}
 
-  arButton.disabled=!ready||arActive||nativePending||launchBusy||!window.isSecureContext||!viewer?.canActivateAR;
+  arButton.disabled=!ready||arActive||nativePending||launchBusy||!window.isSecureContext||!viewer?.canActivateAR||(scaleMode==='plate'&&!validPlate());
   $('ar-help').textContent=!window.isSecureContext?'A realidade aumentada precisa de HTTPS. O 3D continua disponível.':arActive?'Sessão WebXR em andamento.':nativePending?'Visualizador nativo chamado. Confirme a abertura no celular.':viewer?.canActivateAR&&ready?'Aponte para uma mesa bem iluminada. Permita a câmera quando solicitado.':'AR não disponibilizada por este navegador. Você pode continuar no 3D.';
 }
 function refreshAR(current,remaining=16){
@@ -67,7 +72,7 @@ function attachAR(v,current){
   });
   v.addEventListener('ar-tracking',e=>{
     if(current!==generation)return;diagnostics.setTracking(e.detail.status);
-    setHint(e.detail.status==='not-tracking'?'Rastreamento instável. Pare e aponte para uma superfície iluminada e com textura.':'Rastreamento recuperado. Confira a posição antes de medir.');
+    if(!spatial?.active)setHint(e.detail.status==='not-tracking'?'Rastreamento instável. Pare e aponte para uma superfície iluminada e com textura.':'Rastreamento recuperado. Confira a posição antes de medir.');
   });
 }
 async function loadModel(event){
@@ -89,6 +94,7 @@ async function loadModel(event){
     v.a11y=A11Y_PT;applyARMode(v,$('ar-mode').value,assetPath(product.assets.usdz,'.usdz'),scaleMode);localizeShadow(v);
     for(const slot of ['ar-button','poster','progress-bar']){const el=document.createElement('span');el.slot=slot;el.hidden=true;el.setAttribute('aria-hidden','true');v.append(el);}
     arHint=document.createElement('div');arHint.className='xr-hint';arHint.setAttribute('role','status');arHint.setAttribute('aria-live','polite');setHint('Mova o celular devagar e procure a mesa.');v.append(arHint);
+    spatial=installSpatialUI(v,product,{mode:scaleMode,factor:scaleFactor(),hint:arHint,diagnostics});
     const exit=document.createElement('button');exit.type='button';exit.slot='exit-webxr-ar-button';exit.className='exit-ar';exit.textContent='Sair da AR';exit.setAttribute('aria-label','Sair da realidade aumentada');v.append(exit);
     v.addEventListener('pointerdown',pauseRotation);
     v.addEventListener('render-scale',e=>{if(current===generation)diagnostics.setRender(e.detail);});
@@ -108,7 +114,7 @@ async function loadModel(event){
 loadButton.addEventListener('click',loadModel);
 arButton.addEventListener('click',()=>{
   if(!ready||!viewer?.canActivateAR||!window.isSecureContext||arActive||nativePending||launchBusy){updateAR();return;}
-  pauseRotation();diagnostics.event('ar-launch-requested',{requestedMode:$('ar-mode').value});
+  spatial?.configure(scaleMode,scaleFactor());pauseRotation();diagnostics.event('ar-launch-requested',{requestedMode:$('ar-mode').value});
   launchBusy=true;updateAR();const current=generation;
   // No await before activateAR: preserve the original user gesture.
   observeNativeLaunch(()=>viewer.activateAR(),anchor=>{
@@ -129,29 +135,41 @@ function restoreAfterNative(){if(!document.hidden&&nativePending){nativePending=
 document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseRotation();else restoreAfterNative();});
 window.addEventListener('focus',restoreAfterNative);
 window.addEventListener('pageshow',()=>{if(ready&&!arActive){restoreView();updateAR();}});
-function setHint(text){if(arHint)arHint.textContent=(scaleMode==='free'?'Exploração livre: tamanho ilustrativo. ':'')+text;}
+function setHint(text){if(arHint&&!spatial?.active)arHint.textContent=(scaleMode==='free'?'Exploração livre: tamanho ilustrativo. ':'')+text;}
 function updateScaleText(){
  const width=Math.round((product?.physical.widthM??.2)*100);
  $('scale-help').textContent=scaleMode==='real'?`Escala bloqueada em AR. Referência de ${width} cm.`:'O tamanho pode ser ampliado ou reduzido quando o visualizador permitir. Não representa necessariamente o tamanho real.';
+ $('plate-controls').hidden=scaleMode!=='plate';
+ for(const option of $('ar-mode').options)option.disabled=scaleMode==='plate'&&option.value!=='webxr';
+ if(scaleMode==='plate'){const f=scaleFactor();$('plate-result').textContent=`Conjunto virtual: ${(product.physical.widthM*f*100).toLocaleString('pt-BR',{maximumFractionDigits:1})} × ${((scaleGeometry().depthM||product.physical.widthM)*f*100).toLocaleString('pt-BR',{maximumFractionDigits:1})} cm. Escala ilustrativa; não há reconhecimento automático do prato.`;$('scale-help').textContent='Ajuste assistido pela medida informada. Requer WebXR; use Tamanho real ou Exploração livre nos visualizadores nativos.';}
+ if(scaleMode==='plate'&&!validPlate())$('plate-result').textContent='Informe um diâmetro entre 10 e 50 cm, em passos de 0,5 cm.';
  $('return-real').hidden=scaleMode==='real';
  for(const radio of document.querySelectorAll('[name=scale-mode]'))radio.checked=radio.value===scaleMode;
 }
 function setScale(mode){
  if(arActive||nativePending||launchBusy){updateScaleText();return;}
- if(!['real','free'].includes(mode))return;scaleMode=mode;diagnostics.data.scaleMode=mode;diagnostics.event('scale-selected',{mode});updateScaleText();
+ if(!['real','free','plate'].includes(mode))return;
+ if(mode==='plate'&&scaleMode!=='plate'){platePreviousARMode=$('ar-mode').value;$('ar-mode').value='webxr';}
+ if(mode!=='plate'&&scaleMode==='plate')$('ar-mode').value=platePreviousARMode;
+ scaleMode=mode;diagnostics.data.scaleMode=mode;diagnostics.event('scale-selected',{mode});updateScaleText();
+ if(spatial&&!spatial.renderer)spatial.configure(scaleMode,scaleFactor());
  if(viewer&&product?.status==='ready'){applyARMode(viewer,$('ar-mode').value,assetPath(product.assets.usdz,'.usdz'),scaleMode);arButton.disabled=true;setTimeout(()=>refreshAR(generation),150);}
 }
+for(const input of [$('plate-diameter'),$('plate-coverage')])input.addEventListener('input',()=>{if(arActive||nativePending||launchBusy)return;if(!validPlate()){$('plate-result').textContent='Informe um diâmetro entre 10 e 50 cm, em passos de 0,5 cm.';updateAR();return;}setScale(scaleMode);});
 for(const radio of document.querySelectorAll('[name=scale-mode]'))radio.addEventListener('change',()=>setScale(radio.value));
 $('return-real').addEventListener('click',()=>{setScale('real');restoreView();say('Tamanho real selecionado. Inicie uma nova sessão e posicione o alimento novamente.');});
 function dispose(){
+ spatial?.disconnect();spatial=undefined;
  generation++;controller?.abort();clearTimeout(timeout);pauseRotation();if(viewer){viewer.src=null;viewer.remove();viewer=undefined;}
  ready=false;loading=false;arActive=false;nativePending=false;launchBusy=false;onLock(false);diagnostics.event('viewer-released',{modelCacheSize:0});
 }
 function selectProduct(p,event){
- if(arActive||nativePending||launchBusy)return false;dispose();product=p;attempts=0;scaleMode='real';diagnostics.data.productId=p.id;diagnostics.data.scaleMode='real';diagnostics.data.observedMode=null;diagnostics.data.modeEvidence=null;diagnostics.data.firstRenderMs=null;diagnostics.data.tracking='not-measured';
+ if(arActive||nativePending||launchBusy)return false;const wasPlate=scaleMode==='plate';dispose();product=p;attempts=0;scaleMode='real';diagnostics.data.productId=p.id;diagnostics.data.scaleMode='real';diagnostics.data.observedMode=null;diagnostics.data.modeEvidence=null;diagnostics.data.firstRenderMs=null;diagnostics.data.tracking='not-measured';diagnostics.data.spatial=null;for(const id of ['diag-spatial','diag-anchor','diag-cadence'])$(id).textContent='Não medido';
  $('diag-load').textContent='Ainda não carregado';$('diag-mode').textContent='Nenhuma sessão iniciada';$('diag-tracking').textContent='Não medido';$('diagnostic-report').hidden=true;
  diagnostics.event('product-selected',{id:p.id});stage.classList.remove('viewer-ready');stage.setAttribute('aria-busy','false');$('viewer-controls').hidden=true;$('start-panel').hidden=false;progress.hidden=true;
  loadButton.hidden=p.status!=='ready';loadButton.disabled=false;loadButton.textContent='Explorar em 3D';$('download-label').textContent=p.status==='ready'?'Preparando a experiência':'Fotografia disponível. Modelo 3D pendente de digitalização.';
+ for(const option of $('ar-mode').options)option.disabled=false;
+ if(wasPlate)$('ar-mode').value=platePreviousARMode;
  updateScaleText();updateAR();
  if(p.status==='ready')loadModel(event);else{say('Veja a fotografia. A realidade aumentada ainda não está disponível para este produto.');$('interaction-hint').textContent='Fotografia ilustrativa · 3D ainda indisponível';$('scale-help').textContent='Dimensão planejada; modelo ainda não calibrado.';}
  return true;

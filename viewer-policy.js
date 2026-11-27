@@ -11,11 +11,11 @@ export const A11Y_PT = Object.freeze({
 
 export function applyARMode(viewer, mode, usdz, scaleMode='real') {
   if (!Object.hasOwn(AR_MODES,mode)) throw new Error('Modo de AR inválido');
-  viewer.arModes=AR_MODES[mode];
+  viewer.arModes=scaleMode==='plate'?'webxr':AR_MODES[mode];
   // ios-src enables Quick Look independently of ar-modes. Clear it in isolated Android tests.
-  viewer.iosSrc=(mode==='auto'||mode==='quick-look')?usdz:null;
-  if(!['real','free'].includes(scaleMode))throw Error('Escala inválida');
-  viewer.arScale=scaleMode==='real'?'fixed':'auto';
+  viewer.iosSrc=scaleMode!=='plate'&&(mode==='auto'||mode==='quick-look')?usdz:null;
+  if(!['real','free','plate'].includes(scaleMode))throw Error('Escala inválida');
+  viewer.arScale=scaleMode==='free'?'auto':'fixed';
   viewer.arPlacement='floor';
 }
 
@@ -54,7 +54,7 @@ export function observeNativeLaunch(action,onAnchor) {
 export function localDiagnostics() {
   const ua=navigator.userAgent;
   const browser=/EdgA\//.test(ua)?'Edge Android':/Edg\//.test(ua)?'Edge':/CriOS\//.test(ua)?'Chrome iOS':/Chrome\//.test(ua)?'Chrome':/Safari\//.test(ua)?'Safari':'Outro navegador';
-  const data={version:'0.3.0',productId:null,scaleMode:'real',userAgent:ua,browser,devicePixelRatio:window.devicePixelRatio,viewport:{width:innerWidth,height:innerHeight},hardwareConcurrency:navigator.hardwareConcurrency??null,deviceMemoryGiB:navigator.deviceMemory??null,requestedMode:'auto',observedMode:null,modeEvidence:null,firstRenderMs:null,tracking:'not-measured',renderScale:null,events:[],physicalValidation:'pending'};
+  const data={version:'0.3.1',productId:null,scaleMode:'real',userAgent:ua,browser,devicePixelRatio:window.devicePixelRatio,viewport:{width:innerWidth,height:innerHeight},hardwareConcurrency:navigator.hardwareConcurrency??null,deviceMemoryGiB:navigator.deviceMemory??null,requestedMode:'auto',observedMode:null,modeEvidence:null,firstRenderMs:null,tracking:'not-measured',renderScale:null,events:[],physicalValidation:'pending'};
   const $=id=>document.getElementById(id);
   $('diag-browser').textContent=browser;
   $('diag-render').textContent=`DPR ${window.devicePixelRatio}; FPS físico não medido`;

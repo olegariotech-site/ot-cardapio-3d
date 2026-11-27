@@ -1,0 +1,33 @@
+Model Viewer 4.4.0 — OT spatial bridge V0.3.1
+
+Upstream: https://github.com/google/model-viewer/tree/v4.4.0
+Distribution source: https://unpkg.com/@google/model-viewer@4.4.0/dist/model-viewer.js
+License: Apache License 2.0; see model-viewer.txt and
+THIRD_PARTY_NOTICES.md for upstream and bundled dependency notices.
+
+Modified by OLEGARIO TECH on 2026-11-27. The file
+vendor/model-viewer-ot-v031.min.js is a derivative of the upstream distribution.
+Changes are identified in vendor/model-viewer-ot-v031.patch:
+request optional WebXR anchors; require hit-test and DOM overlay for the OT controller;
+route placement, gesture gating, tracking, active-frame updates and cleanup
+through the application-owned SpatialSession bridge; detect unavailable
+transient gesture APIs. Rendering, assets,
+native Scene Viewer and Quick Look implementations remain upstream.
+The unmodified vendor/model-viewer.min.js is retained for integrity and rollback.
+
+The application-owned controller in ar-spatial.js uses actual XR hit tests and
+session-local XRAnchor poses when creation succeeds. It does not recognize plates,
+enable Depth Sensing, use Cloud Anchors or persist anchors across sessions.
+No physical scale, drift or FPS accuracy is guaranteed by this modification.
+
+Copyright 2018 Google LLC. All rights reserved.
+Modifications Copyright 2026 OLEGARIO TECH.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+https://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
