@@ -46,3 +46,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 No code or models were copied from the seven restaurant projects under review.
 OT-authored source is reserved for OLEGARIO TECH; it is not relicensed by the
 licenses of the dependencies or assets.
+
+
+V0.1.1 mobile derivative: croissant-mobile-v011.glb is derived locally from
+the preserved calibrated CC0 croissant.glb above. Geometry, normals, UVs,
+tangents, coordinate system and physical dimensions are unchanged. The three
+PBR textures are resized to 1024x1024 and re-encoded as JPEG. This derivative
+remains CC0-1.0. The original GLB and original USDZ are retained unchanged.
+No Draco, Meshopt or KTX2 compression is required by the delivered derivative.
