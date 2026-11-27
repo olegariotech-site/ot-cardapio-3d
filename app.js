@@ -1,135 +1,34 @@
-import {CAMERA,A11Y_PT,applyARMode,restoreCamera,localDiagnostics,observeNativeLaunch} from './viewer-policy.js?v=0.1.1';
-const $=id=>document.getElementById(id);
-const stage=$('stage'),loadButton=$('load-model'),arButton=$('launch-ar'),status=$('status'),progress=$('download-progress');
-const diagnostics=localDiagnostics();
-let viewer,ready=false,loading=false,enginePromise,engineFailed=false,generation=0,attempts=0,timeout,controller,product,loadStarted=0,arActive=false,nativePending=false,launchBusy=false,arHint,keyboardInitiated=false;
-const say=(message,state='normal')=>{status.textContent=message;status.dataset.state=state;};
-const pauseRotation=()=>{if(viewer)viewer.autoRotate=false;$('spin').setAttribute('aria-pressed','false');};
-
-export function assetPath(value,extension){
-  if(typeof value!=='string'||!value.startsWith('./assets/')||!value.endsWith(extension)||value.includes('..')||/[?#\\]/.test(value))throw Error('Caminho de recurso inválido');
-  const url=new URL(value,document.baseURI);if(url.origin!==location.origin)throw Error('Origem de recurso inválida');return url.href;
+import {validateCatalog,currency,VERSION} from './asset-policy.js?v=0.2.0';
+import {createExperience} from './experience.js?v=0.2.0';
+const $=id=>document.getElementById(id),dialog=$('experience');
+let catalog,selectedIndex=0,opener;
+const categoryNames={padaria:'Padaria',lanches:'Lanches',pizzas:'Pizzas',pratos:'Pratos'};
+const controller=createExperience(locked=>{for(const id of ['close-product','previous-product','next-product'])$(id).disabled=locked;});
+function rowsMatch(products){return [...document.querySelectorAll('.menu-item')].map(x=>x.dataset.product).join(',')===products.map(p=>p.id).join(',');}
+function bindProducts(){
+ for(const button of document.querySelectorAll('[data-open-product]')){button.disabled=false;button.addEventListener('click',e=>{opener=button;openProduct(catalog.products.findIndex(p=>p.id===button.dataset.openProduct),e);});}
 }
-export function validateCatalog(catalog){
-  if(catalog?.schemaVersion!==1||catalog.tenantId!=='ot-gastro-lab'||!Array.isArray(catalog.products)||catalog.products.length!==1)throw Error('Catálogo inválido');
-  for(const p of catalog.products){
-    if(!/^[a-z0-9-]+$/.test(p.id)||p.physical?.unit!=='meter'||p.physical?.upAxis!=='Y'||!Number.isFinite(p.physical?.widthM)||p.physical.widthM<=0||p.license?.spdx!=='CC0-1.0')throw Error('Produto inválido');
-    assetPath(p.assets?.glb,'.glb');assetPath(p.assets?.usdz,'.usdz');assetPath(p.assets?.poster,'.webp');
-  }return catalog;
+function openProduct(index,event){
+ if(!catalog||!controller.canLeave())return;selectedIndex=(index+catalog.products.length)%catalog.products.length;const p=catalog.products[selectedIndex];
+ $('product-title').textContent=p.name;$('product-price').textContent=currency(p.priceCents);$('product-category').textContent=categoryNames[p.category];
+ $('product-dimension').replaceChildren(document.createTextNode(`${Math.round(p.physical.widthM*100)} cm`),Object.assign(document.createElement('span'),{textContent:p.status==='ready'?'largura de referência':'referência planejada'}));
+ $('poster').src=p.assets.poster;$('poster').alt=p.imageAlt;$('product-description').textContent=p.description;$('reference-note').textContent=p.referenceNote;
+ $('product-credit').textContent=p.license.credit;$('product-source').href=p.license.source;$('product-license').href=p.license.url;
+ $('product-counter').textContent=`${selectedIndex+1} / ${catalog.products.length}`;
+ $('previous-product').setAttribute('aria-label','Produto anterior: '+catalog.products[(selectedIndex+catalog.products.length-1)%catalog.products.length].name);
+ $('next-product').setAttribute('aria-label','Próximo produto: '+catalog.products[(selectedIndex+1)%catalog.products.length].name);
+ if(!dialog.open){dialog.showModal();document.body.classList.add('dialog-open');}
+ dialog.scrollTop=0;controller.selectProduct(p,event);$('close-product').focus({preventScroll:true});
 }
-function engine(){
-  if(!enginePromise){
-    const probe=document.createElement('canvas'),gl=probe.getContext('webgl2');
-    if(!gl)throw Error('webgl-unavailable');gl.getExtension('WEBGL_lose_context')?.loseContext();
-    enginePromise=import('./vendor/model-viewer.min.js').then(async()=>{await customElements.whenDefined('model-viewer');customElements.get('model-viewer').modelCacheSize=1;});
-    enginePromise.catch(()=>{engineFailed=true;});
-  }return enginePromise;
-}
-function updateAR(){
-  arButton.disabled=!ready||arActive||nativePending||launchBusy||!window.isSecureContext||!viewer?.canActivateAR;
-  $('ar-help').textContent=!window.isSecureContext?'A realidade aumentada precisa de HTTPS. O 3D continua disponível.':arActive?'Sessão WebXR em andamento.':nativePending?'Visualizador nativo chamado. Confirme a abertura no celular.':viewer?.canActivateAR&&ready?'Aponte para uma mesa bem iluminada. Permita a câmera quando solicitado.':'AR não disponibilizada por este navegador. Você pode continuar no 3D.';
-}
-function refreshAR(current,remaining=16){
-  if(current!==generation||!ready)return;updateAR();
-  if(arButton.disabled&&!arActive&&!nativePending&&remaining>0)setTimeout(()=>refreshAR(current,remaining-1),400);
-}
-function restoreView(){if(!viewer||!ready||arActive)return;pauseRotation();restoreCamera(viewer);diagnostics.event('3d-view-restored');}
-function fail(message){
-  generation++;clearTimeout(timeout);controller?.abort();pauseRotation();viewer?.remove();viewer=undefined;ready=false;loading=false;arActive=false;nativePending=false;
-  stage.setAttribute('aria-busy','false');stage.classList.remove('viewer-ready');$('viewer-controls').hidden=true;$('start-panel').hidden=false;progress.hidden=true;
-  loadButton.disabled=false;loadButton.textContent=engineFailed?'Recarregar a experiência':'Tentar novamente';arButton.disabled=true;$('download-label').textContent='A fotografia continua disponível.';
-  say(message,'error');diagnostics.event('3d-load-failed',{message});
-}
-async function download(url,signal,current){
-  const response=await fetch(url,{signal,cache:'force-cache'});if(!response.ok)throw Error('model-download');
-  const total=Number(response.headers.get('Content-Length'));
-  const hasTotal=total>0&&!response.headers.get('Content-Encoding');
-  progress.hidden=false;if(hasTotal){progress.max=total;progress.value=0;}else progress.removeAttribute('value');
-  let bytes=0;
-  const show=()=>{if(current!==generation)return;$('download-label').textContent=`Baixando ${(bytes/1e6).toLocaleString('pt-BR',{maximumFractionDigits:2})} MB`;if(hasTotal)progress.value=Math.min(bytes,total);};
-  if(response.body?.getReader){const reader=response.body.getReader();try{for(;;){const {done,value}=await reader.read();if(done)break;bytes+=value.byteLength;show();}}finally{reader.releaseLock();}}
-  else{bytes=(await response.arrayBuffer()).byteLength;show();}
-  diagnostics.event('model-download-complete',{bytes});
-}
-function localizeShadow(v){
-  const s=v.shadowRoot;if(!s)return;
-  s.querySelector('[role="region"]')?.setAttribute('aria-label','Atualizações da visualização');
-  for(const [id,label] of [['default-poster','Carregando alimento em 3D'],['default-ar-button','Ver na minha mesa'],['default-exit-webxr-ar-button','Sair da realidade aumentada']])s.getElementById(id)?.setAttribute('aria-label',label);
-}
-function attachAR(v,current){
-  v.addEventListener('ar-status',e=>{
-    if(current!==generation)return;
-    const value=e.detail.status;diagnostics.event('ar-status',{status:value});
-    if(value==='session-started'){
-      arActive=true;nativePending=false;pauseRotation();diagnostics.observed('webxr','model-viewer-session-started');
-      arHint.textContent='Mova o celular devagar e procure a mesa.';say('Sessão WebXR iniciada. Procure uma superfície horizontal.');
-    }else if(value==='object-placed'){arHint.textContent='Alimento posicionado. Observe a estabilidade sem arrastar o objeto.';say('Alimento posicionado. Confira a referência de 20 cm com uma régua.');}
-    else if(value==='not-presenting'){arActive=false;nativePending=false;requestAnimationFrame(()=>{if(current!==generation)return;restoreView();updateAR();});say('Você voltou ao 3D. A vista inicial foi restaurada.');}
-    else if(value==='failed'){arActive=false;nativePending=false;updateAR();say('A realidade aumentada não iniciou. Continue no 3D ou teste outro modo.','error');}
-    updateAR();
-  });
-  v.addEventListener('ar-tracking',e=>{
-    if(current!==generation)return;diagnostics.setTracking(e.detail.status);
-    arHint.textContent=e.detail.status==='not-tracking'?'Rastreamento instável. Pare e aponte para uma superfície iluminada e com textura.':'Rastreamento recuperado. Confira a posição antes de medir.';
-  });
-}
-async function loadModel(event){
-  if(loading)return;if(engineFailed){location.reload();return;}
-  const current=++generation;attempts++;keyboardInitiated=event?.detail===0;loading=true;ready=false;loadStarted=performance.now();controller?.abort();controller=new AbortController();
-  stage.setAttribute('aria-busy','true');loadButton.disabled=true;loadButton.textContent='Carregando o alimento…';$('download-label').textContent='Preparando a experiência';progress.hidden=false;progress.removeAttribute('value');say('Carregando o alimento e preparando o 3D.');
-  diagnostics.event('3d-load-started',{attempt:attempts});
-  timeout=setTimeout(()=>{if(current===generation)fail('O carregamento demorou mais que o esperado. Confira a conexão e tente novamente.');},45000);
-  try{
-    // Start the engine and catalog together; the model downloads while the engine parses.
-    const engineResult=engine().then(()=>null,e=>e);
-    const response=await fetch('./catalog.json?v=0.1.1',{signal:controller.signal,cache:'no-cache'});if(!response.ok)throw Error('catalog-download');
-    product=validateCatalog(await response.json()).products[0];
-    const modelURL=new URL(assetPath(product.assets.glb,'.glb'));if(attempts>1)modelURL.searchParams.set('ot-retry',String(attempts));
-    const [engineError]=await Promise.all([engineResult,download(modelURL.href,controller.signal,current)]);
-    if(engineError)throw engineError;if(current!==generation)return;
-    $('download-label').textContent='Preparando textura e primeira imagem';progress.removeAttribute('value');
-    viewer?.remove();viewer=document.createElement('model-viewer');const v=viewer;v.id='food-viewer';
-    const attributes={alt:'Croissant artesanal em três dimensões.', 'camera-controls':'',ar:'','ar-scale':'fixed','ar-placement':'floor','camera-orbit':CAMERA.orbit,'camera-target':CAMERA.target,'min-camera-orbit':CAMERA.min,'max-camera-orbit':CAMERA.max,'field-of-view':CAMERA.fov,'min-field-of-view':CAMERA.fov,'max-field-of-view':CAMERA.fov,'disable-pan':'','disable-tap':'','interpolation-decay':'30','orbit-sensitivity':'1.1','zoom-sensitivity':'0.6','shadow-intensity':'0.65','shadow-softness':'0.6',exposure:'1','interaction-prompt':'none','touch-action':'pan-y',loading:'eager',reveal:'auto','rotation-per-second':'25deg','auto-rotate-delay':'600','environment-image':'neutral'};
-    for(const [k,value] of Object.entries(attributes))v.setAttribute(k,value);
-    v.a11y=A11Y_PT;applyARMode(v,$('ar-mode').value,assetPath(product.assets.usdz,'.usdz'));localizeShadow(v);
-    for(const slot of ['ar-button','poster','progress-bar']){const el=document.createElement('span');el.slot=slot;el.hidden=true;el.setAttribute('aria-hidden','true');v.append(el);}
-    arHint=document.createElement('div');arHint.className='xr-hint';arHint.setAttribute('role','status');arHint.setAttribute('aria-live','polite');arHint.textContent='Mova o celular devagar e procure a mesa.';v.append(arHint);
-    const exit=document.createElement('button');exit.type='button';exit.slot='exit-webxr-ar-button';exit.className='exit-ar';exit.textContent='Sair da AR';exit.setAttribute('aria-label','Sair da realidade aumentada');v.append(exit);
-    v.addEventListener('pointerdown',pauseRotation);
-    v.addEventListener('render-scale',e=>{if(current===generation)diagnostics.setRender(e.detail);});
-    v.addEventListener('error',()=>{if(current===generation)fail('Não foi possível exibir o 3D. A fotografia continua disponível. Tente novamente.');});
-    v.addEventListener('load',()=>{
-      if(current!==generation)return;const dimensions=v.getDimensions();
-      if(!Number.isFinite(dimensions.x)||Math.abs(dimensions.x-product.physical.widthM)>.00001||dimensions.y<=0||dimensions.z<=0){fail('O modelo não pôde ser exibido corretamente. Tente novamente.');return;}
-      clearTimeout(timeout);loading=false;ready=true;stage.setAttribute('aria-busy','false');stage.classList.add('viewer-ready');$('start-panel').hidden=true;progress.hidden=true;$('viewer-controls').hidden=false;
-      diagnostics.setLoad(performance.now()-loadStarted);$('interaction-hint').textContent='Arraste para girar · pinça para aproximar';say('Pronto. Explore o alimento ou veja na sua mesa.');localizeShadow(v);refreshAR(current);
-      if(keyboardInitiated)v.focus({preventScroll:true});
-    });
-    attachAR(v,current);$('viewer-host').replaceChildren(v);
-    // Keep a static same-origin URL. Native viewers cannot load browser blob URLs.
-    v.src=modelURL.href;
-  }catch(error){if(current!==generation)return;fail(error.message==='webgl-unavailable'?'Este navegador não disponibilizou os recursos para exibir o 3D. A fotografia continua disponível.':'Não foi possível preparar a experiência. Confira a conexão e tente novamente.');}
-}
-loadButton.addEventListener('click',loadModel);
-arButton.addEventListener('click',()=>{
-  if(!ready||!viewer?.canActivateAR||!window.isSecureContext||arActive||nativePending||launchBusy){updateAR();return;}
-  pauseRotation();diagnostics.event('ar-launch-requested',{requestedMode:$('ar-mode').value});
-  launchBusy=true;updateAR();const current=generation;
-  // No await before activateAR: preserve the original user gesture.
-  observeNativeLaunch(()=>viewer.activateAR(),anchor=>{
-    if(current!==generation)return;diagnostics.nativeAnchor(anchor);nativePending=true;updateAR();
-    setTimeout(()=>{if(current===generation&&nativePending&&!document.hidden){nativePending=false;updateAR();say('Se o visualizador não abriu, tente novamente ou compare outro modo de AR.');diagnostics.event('native-handoff-not-confirmed');}},6000);
-  }).catch(()=>{nativePending=false;arActive=false;say('A sessão de AR não iniciou. O 3D continua disponível.','error');}).finally(()=>{launchBusy=false;updateAR();});
+function closeProduct(){if(!controller.canLeave())return;controller.dispose();dialog.close();document.body.classList.remove('dialog-open');opener?.focus({preventScroll:true});}
+$('close-product').addEventListener('click',closeProduct);dialog.addEventListener('cancel',e=>{e.preventDefault();closeProduct();});
+$('previous-product').addEventListener('click',e=>openProduct(selectedIndex-1,e));$('next-product').addEventListener('click',e=>openProduct(selectedIndex+1,e));
+for(const button of document.querySelectorAll('button[data-category]'))button.addEventListener('click',()=>{
+ const category=button.dataset.category;for(const other of document.querySelectorAll('button[data-category]'))other.setAttribute('aria-pressed',String(other===button));let visible=0;
+ for(const row of document.querySelectorAll('.menu-item')){row.hidden=category!=='all'&&row.dataset.category!==category;if(!row.hidden)visible++;}
+ $('filter-status').textContent=`${visible} ${visible===1?'produto disponível':'produtos disponíveis'} nesta categoria.`;
 });
-$('rotate').addEventListener('click',()=>{if(!ready||arActive)return;pauseRotation();const orbit=viewer.getCameraOrbit();viewer.cameraOrbit=`${orbit.theta+Math.PI/2}rad ${orbit.phi}rad ${orbit.radius}m`;});
-$('spin').addEventListener('click',()=>{if(!ready||arActive)return;viewer.autoRotate=!viewer.autoRotate;$('spin').setAttribute('aria-pressed',String(viewer.autoRotate));});
-$('reset').addEventListener('click',restoreView);
-$('ar-mode').addEventListener('change',()=>{
-  const mode=$('ar-mode').value;diagnostics.data.requestedMode=mode;diagnostics.event('ar-mode-selected',{mode});nativePending=false;diagnostics.data.observedMode=null;diagnostics.data.modeEvidence=null;$('diag-mode').textContent='Aguardando nova tentativa';
-  if(viewer&&product&&!arActive){arButton.disabled=true;applyARMode(viewer,mode,assetPath(product.assets.usdz,'.usdz'));setTimeout(()=>refreshAR(generation),150);}
-});
-$('copy-diagnostics').addEventListener('click',()=>{const field=$('diagnostic-report');field.value=diagnostics.export();field.hidden=false;field.focus({preventScroll:true});field.select();$('copy-diagnostics').textContent='Relatório pronto para copiar';});
-function restoreAfterNative(){if(!document.hidden&&nativePending){nativePending=false;restoreView();updateAR();diagnostics.event('returned-from-native-handoff');}}
-document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseRotation();else restoreAfterNative();});
-window.addEventListener('focus',restoreAfterNative);
-window.addEventListener('pageshow',()=>{if(ready&&!arActive){restoreView();updateAR();}});
+try{
+ const response=await fetch(`./catalog.json?v=${VERSION}`,{cache:'no-cache'});if(!response.ok)throw Error('catalog-download');catalog=validateCatalog(await response.json());
+ if(!rowsMatch(catalog.products))throw Error('catalog-html-mismatch');bindProducts();$('catalog-status').textContent='';
+}catch{ $('catalog-status').textContent='Não foi possível preparar o 3D. As imagens e informações continuam disponíveis. Recarregue a página para tentar novamente.';}

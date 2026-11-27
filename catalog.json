@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "tenantId": "ot-gastro-lab",
   "brand": {
     "name": "OT Gastro Lab",
@@ -11,26 +11,114 @@
       "name": "Croissant artesanal",
       "category": "padaria",
       "status": "ready",
+      "priceCents": 1290,
+      "description": "Massa folhada dourada, camadas delicadas e um convite ao primeiro café.",
+      "imageAlt": "Croissant artesanal — imagem do escaneamento 3D",
+      "referenceNote": "Geometria normalizada para 20 cm de largura. Medição no aparelho ainda pendente.",
       "assets": {
+        "poster": "./assets/posters/croissant.webp",
         "glb": "./assets/models/croissant-mobile-v011.glb",
-        "usdz": "./assets/models/croissant.usdz",
-        "poster": "./assets/posters/croissant.webp"
+        "usdz": "./assets/models/croissant.usdz"
       },
       "physical": {
         "widthM": 0.2,
         "upAxis": "Y",
         "unit": "meter",
         "grounded": true,
-        "reference": "Poly Haven croissant, 20 cm; geometria normalizada",
+        "referenceStatus": "calibrated",
         "deviceValidation": "pending"
       },
       "license": {
         "spdx": "CC0-1.0",
         "source": "https://polyhaven.com/a/croissant",
-        "authors": [
-          "Dario Barresi",
-          "Greg Zaal"
-        ],
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "credit": "Dario Barresi e Greg Zaal / Poly Haven · CC0 1.0. Modelo normalizado e texturas otimizadas; imagem derivada do escaneamento.",
+        "verified": "2026-11-27"
+      }
+    },
+    {
+      "id": "hamburguer",
+      "name": "Hambúrguer artesanal",
+      "category": "lanches",
+      "status": "ready",
+      "priceCents": 3490,
+      "description": "Pão com gergelim, hambúrguer, queijo e alface. Uma combinação para ver de todos os lados.",
+      "imageAlt": "Hambúrguer artesanal — imagem do escaneamento 3D",
+      "referenceNote": "Geometria normalizada para 14 cm de largura. Medição no aparelho ainda pendente.",
+      "assets": {
+        "poster": "./assets/posters/hamburguer.webp",
+        "glb": "./assets/models/burger-v02.glb",
+        "usdz": "./assets/models/burger-v02.usdz"
+      },
+      "physical": {
+        "widthM": 0.14,
+        "upAxis": "Y",
+        "unit": "meter",
+        "grounded": true,
+        "referenceStatus": "calibrated",
+        "deviceValidation": "pending"
+      },
+      "license": {
+        "spdx": "CC-BY-4.0",
+        "source": "https://sketchfab.com/3d-models/77ce9161326f4e4b8615bc0d14754837",
+        "url": "https://creativecommons.org/licenses/by/4.0/",
+        "credit": "Burger ProjTest, de pondohva / Sketchfab · CC BY 4.0. Suporte e seção inferior removidos; base plana reconstruída, malha reduzida, texturas otimizadas e escala normalizada pela OT; imagem derivada.",
+        "verified": "2026-11-27"
+      }
+    },
+    {
+      "id": "pizza-margherita",
+      "name": "Pizza Margherita",
+      "category": "pizzas",
+      "status": "photo-only",
+      "priceCents": 4990,
+      "description": "Tomate, muçarela e manjericão. O clássico italiano em uma fotografia ilustrativa.",
+      "imageAlt": "Pizza Margherita — fotografia ilustrativa",
+      "referenceNote": "Referência planejada de 30 cm. A fotografia não representa uma escala calibrada; 3D e AR aguardam digitalização.",
+      "assets": {
+        "poster": "./assets/posters/pizza-margherita.webp"
+      },
+      "physical": {
+        "widthM": 0.3,
+        "upAxis": "Y",
+        "unit": "meter",
+        "grounded": false,
+        "referenceStatus": "planned",
+        "deviceValidation": "pending"
+      },
+      "license": {
+        "spdx": "CC-BY-4.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Margherita_pizza_on_plate.jpg",
+        "url": "https://creativecommons.org/licenses/by/4.0/",
+        "credit": "Margherita pizza on plate, de Shisma / Wikimedia Commons · CC BY 4.0. Fotografia redimensionada e convertida em WebP; recorte de apresentação no cardápio.",
+        "verified": "2026-11-27"
+      }
+    },
+    {
+      "id": "prato-executivo",
+      "name": "Prato executivo brasileiro",
+      "category": "pratos",
+      "status": "photo-only",
+      "priceCents": 2990,
+      "description": "Arroz, feijão, frango grelhado e batatas, com salada e ovo como acompanhamentos ilustrativos.",
+      "imageAlt": "Prato executivo brasileiro — fotografia ilustrativa",
+      "referenceNote": "Referência planejada de 28 cm. A fotografia não representa uma escala calibrada; 3D e AR aguardam digitalização.",
+      "assets": {
+        "poster": "./assets/posters/prato-executivo.webp"
+      },
+      "physical": {
+        "widthM": 0.28,
+        "upAxis": "Y",
+        "unit": "meter",
+        "grounded": false,
+        "referenceStatus": "planned",
+        "deviceValidation": "pending"
+      },
+      "license": {
+        "spdx": "CC0-1.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Prato_com_arroz_e_feij%C3%A3o,_frango_grelhado,_batata_frita,_salada_e_ovo_frito_como_adicionais.jpg",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "credit": "Fotografia de Tet / Wikimedia Commons · CC0 1.0. Redimensionada e convertida em WebP; recorte de apresentação no cardápio.",
         "verified": "2026-11-27"
       }
     }

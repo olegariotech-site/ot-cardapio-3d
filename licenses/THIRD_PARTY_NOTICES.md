@@ -1,4 +1,4 @@
-# Third party notices — OT Gastro Lab V0.1
+# Third party notices — OT Gastro Lab V0.2 (includes V0.1/V0.1.1)
 
 Croissant: Dario Barresi (scan), Greg Zaal (processing), Poly Haven.
 https://polyhaven.com/a/croissant — CC0-1.0.
@@ -54,3 +54,40 @@ tangents, coordinate system and physical dimensions are unchanged. The three
 PBR textures are resized to 1024x1024 and re-encoded as JPEG. This derivative
 remains CC0-1.0. The original GLB and original USDZ are retained unchanged.
 No Draco, Meshopt or KTX2 compression is required by the delivered derivative.
+
+## V0.2 — added assets (2026-11-27)
+
+Burger ProjTest by pondohva — Creative Commons Attribution 4.0 International.
+https://sketchfab.com/3d-models/77ce9161326f4e4b8615bc0d14754837
+https://creativecommons.org/licenses/by/4.0/
+Original scan obtained through the public Allen Institute Objaverse redistribution,
+matching the source UID, author and embedded source license. Individual asset
+license verified against Sketchfab model metadata; the dataset license is not
+used as a substitute for the model license. No paid asset was purchased.
+Files: assets/models/burger-v02.glb, burger-v02.usdz,
+assets/posters/hamburguer.webp (rendered locally from the derivative).
+Changes by OLEGARIO TECH: remove scanning support and a thin lower section,
+weld vertices, reduce mesh, close underside with a flat brown surface, resize
+texture to 1024px, JPEG re-encoding, center, ground and normalize width to 0.14m,
+convert GLB/USDZ and render image. The reconstructed underside is not a scan.
+The derivative remains CC BY 4.0; no endorsement by the author is implied.
+
+Margherita pizza on plate by Shisma — CC BY 4.0.
+https://commons.wikimedia.org/wiki/File:Margherita_pizza_on_plate.jpg
+https://creativecommons.org/licenses/by/4.0/
+File: assets/posters/pizza-margherita.webp. Resized to 960x720, converted to WebP;
+CSS presentation crops the image in catalog rows. Photograph only: this is not
+a 3D model and is not used as a camera overlay or simulated AR.
+
+Prato com arroz e feijão, frango grelhado, batata frita, salada e ovo frito
+como adicionais, by Tet — CC0 1.0.
+https://commons.wikimedia.org/wiki/File:Prato_com_arroz_e_feij%C3%A3o,_frango_grelhado,_batata_frita,_salada_e_ovo_frito_como_adicionais.jpg
+https://creativecommons.org/publicdomain/zero/1.0/
+File: assets/posters/prato-executivo.webp. Resized to 960x867, converted to WebP;
+CSS presentation crops the image in catalog rows. Photograph only; no 3D/AR.
+
+Sources were checked on 2026-11-27. Private audit records are excluded from the
+public repository and Pages artifact. The two photograph-only catalog entries
+have no GLB or USDZ URL. The V0.1/V0.1.1 croissant assets and original licenses
+remain unchanged. No restaurant code, Paprika3D runtime or AI-generated food
+asset was incorporated. V0.2 remains a local proof of concept pending release.

@@ -1,0 +1,18 @@
+Creative Commons Attribution 4.0 International (CC BY 4.0)
+Canonical license: https://creativecommons.org/licenses/by/4.0/
+Full legal code: https://creativecommons.org/licenses/by/4.0/legalcode.en
+
+This file is a license reference and attribution notice, not a replacement for
+that legal code. The assets listed under CC BY 4.0 in THIRD_PARTY_NOTICES.md
+may be shared and adapted, including commercially, subject to attribution,
+a link to the license, and indication of changes. No endorsement is implied.
+
+Burger ProjTest — pondohva
+https://sketchfab.com/3d-models/77ce9161326f4e4b8615bc0d14754837
+Changes: scanning support and a thin lower section removed; flat underside
+closure, mesh reduction, JPEG textures at up to 1024px, scale normalization,
+GLB/USDZ conversion and derived product image by OLEGARIO TECH.
+
+Margherita pizza on plate — Shisma
+https://commons.wikimedia.org/wiki/File:Margherita_pizza_on_plate.jpg
+Changes: resized, converted to WebP, presentation crop in the menu.
