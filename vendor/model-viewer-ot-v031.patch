@@ -1,0 +1,45 @@
+--- @google/model-viewer@4.4.0/dist/model-viewer.js
++++ OLEGARIO-TECH/model-viewer-ot-v031.js
+@@ -0,0 +1 @@
++/*! Model Viewer 4.4.0 — Apache-2.0. Modified by OLEGARIO TECH on 2026-11-27: optional session anchors and explicit SpatialSession bridge. Upstream rendering and native viewers retained. See licenses/NOTICE-model-viewer-ot-v031.txt. */
+@@ -77377,0 +77379 @@
++            if (this.otSpatial && !this.otSpatial.allowInput()) return;
+@@ -77413,0 +77416 @@
++            if (this.otSpatial && !this.otSpatial.allowInput()) return;
+@@ -77443,2 +77446,2 @@
+-            requiredFeatures: [],
+-            optionalFeatures: ['hit-test', 'dom-overlay', 'light-estimation'],
++            requiredFeatures: this.otSpatial ? ['hit-test', 'dom-overlay'] : [],
++            optionalFeatures: this.otSpatial ? ['light-estimation', 'anchors'] : ['hit-test', 'dom-overlay', 'light-estimation'],
+@@ -77489,0 +77493 @@
++        this.otSpatial = scene.element.otSpatialController || null;
+@@ -77529 +77533 @@
+-        const ray = this.placeOnWall === true ?
++        const ray = (this.placeOnWall === true || this.otSpatial) ?
+@@ -77535 +77539 @@
+-        });
++        }).catch(error => this.otSpatial?.sourceError(error));
+@@ -77558,0 +77563 @@
++        this.otSpatial?.connect(this);
+@@ -77658,0 +77664,2 @@
++        this.otSpatial?.disconnect();
++        this.otSpatial = null;
+@@ -77828 +77835 @@
+-            session
++            if (typeof session.requestHitTestSourceForTransientInput === "function") session
+@@ -77831 +77838,3 @@
+-            });
++                this.otSpatial?.setGestureSupport(true);
++            }).catch(error => this.otSpatial?.setGestureSupport(false, error.name));
++            else this.otSpatial?.setGestureSupport(false, "api-unavailable");
+@@ -77861,0 +77871 @@
++        if (this.otSpatial?.active) return this.otSpatial.place(frame);
+@@ -77925,0 +77936 @@
++        if (this.otSpatial && !this.otSpatial.allowInput()) return;
+@@ -78184,0 +78196 @@
++        this.otSpatial?.update(frame, time);
+@@ -78205,0 +78218 @@
++        this.otSpatial?.track(pose, time);
+@@ -89327 +89340 @@
+-//# sourceMappingURL=model-viewer.js.map
++

@@ -1,5 +1,5 @@
-import {validateCatalog,currency,VERSION} from './asset-policy.js?v=0.3.0';
-import {createExperience} from './experience.js?v=0.3.0';
+import {validateCatalog,currency,VERSION} from './asset-policy.js?v=0.3.1';
+import {createExperience} from './experience.js?v=0.3.1';
 const $=id=>document.getElementById(id),dialog=$('experience');
 let catalog,selectedIndex=0,opener;
 const categoryNames={padaria:'Padaria',lanches:'Lanches',pizzas:'Pizzas',pratos:'Pratos',confeitaria:'Confeitaria',bebidas:'Bebidas'};

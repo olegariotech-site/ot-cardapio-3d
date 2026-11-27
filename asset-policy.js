@@ -1,4 +1,4 @@
-export const VERSION='0.3.0';
+export const VERSION='0.3.1';
 export function assetPath(value,extension){
  if(typeof value!=='string'||!/^\.\/assets\/(?:[a-zA-Z0-9_-]+\/)*[a-zA-Z0-9_-]+\.(glb|usdz|webp)$/.test(value)||!value.endsWith(extension))throw Error('Caminho de recurso inválido');
  const url=new URL(value,document.baseURI);if(url.origin!==location.origin)throw Error('Origem de recurso inválida');return url.href;
