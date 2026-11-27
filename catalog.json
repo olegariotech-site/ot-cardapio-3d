@@ -67,58 +67,470 @@
       }
     },
     {
-      "id": "pizza-margherita",
-      "name": "Pizza Margherita",
-      "category": "pizzas",
-      "status": "photo-only",
-      "priceCents": 4990,
-      "description": "Tomate, muçarela e manjericão. O clássico italiano em uma fotografia ilustrativa.",
-      "imageAlt": "Pizza Margherita — fotografia ilustrativa",
-      "referenceNote": "Referência planejada de 30 cm. A fotografia não representa uma escala calibrada; 3D e AR aguardam digitalização.",
+      "id": "sanduiche-batatas",
+      "name": "Sanduíche especial no prato",
+      "category": "lanches",
+      "status": "ready",
+      "priceCents": 3790,
+      "description": "Pão dourado, recheio e acompanhamentos no prato. Uma apresentação para explorar por todos os lados.",
+      "imageAlt": "Sanduíche especial no prato — imagem renderizada do modelo 3D",
+      "referenceNote": "Modelo completo calibrado para 28 cm de largura, incluindo prato ou base quando presentes. Escala física no aparelho ainda não medida.",
       "assets": {
-        "poster": "./assets/posters/pizza-margherita.webp"
+        "poster": "./assets/posters/sanduiche-batatas-v03.webp",
+        "glb": "./assets/models/sanduiche-batatas-v03.glb",
+        "usdz": "./assets/models/sanduiche-batatas-v03.usdz"
       },
       "physical": {
-        "widthM": 0.3,
+        "widthM": 0.28,
+        "heightM": 0.07291437685489655,
+        "depthM": 0.2800000011920929,
         "upAxis": "Y",
         "unit": "meter",
-        "grounded": false,
-        "referenceStatus": "planned",
+        "grounded": true,
+        "referenceStatus": "calibrated",
         "deviceValidation": "pending"
+      },
+      "production": {
+        "method": "photogrammetry-edited"
       },
       "license": {
         "spdx": "CC-BY-4.0",
-        "source": "https://commons.wikimedia.org/wiki/File:Margherita_pizza_on_plate.jpg",
+        "source": "https://sketchfab.com/3d-models/68ebf6492c9c45688661657bb6aeb320",
         "url": "https://creativecommons.org/licenses/by/4.0/",
-        "credit": "Margherita pizza on plate, de Shisma / Wikimedia Commons · CC BY 4.0. Fotografia redimensionada e convertida em WebP; recorte de apresentação no cardápio.",
+        "credit": "Sandwichwithfries3, akshaycoc100 / Sketchfab; CC BY 4.0. Geometria reduzida, texturas otimizadas e escala normalizada pela OT. Materiais PBR ajustados quando necessário, normais reconstruídas, imagens derivadas e conversão USDZ pela OT.",
+        "author": "akshaycoc100",
         "verified": "2026-11-27"
       }
     },
     {
-      "id": "prato-executivo",
-      "name": "Prato executivo brasileiro",
-      "category": "pratos",
-      "status": "photo-only",
-      "priceCents": 2990,
-      "description": "Arroz, feijão, frango grelhado e batatas, com salada e ovo como acompanhamentos ilustrativos.",
-      "imageAlt": "Prato executivo brasileiro — fotografia ilustrativa",
-      "referenceNote": "Referência planejada de 28 cm. A fotografia não representa uma escala calibrada; 3D e AR aguardam digitalização.",
+      "id": "hot-dog",
+      "name": "Pão com salsicha",
+      "category": "lanches",
+      "status": "ready",
+      "priceCents": 1690,
+      "description": "Pão de superfície rústica envolvendo a salsicha. Uma opção de lanchonete em versão escaneada.",
+      "imageAlt": "Pão com salsicha — imagem renderizada do modelo 3D",
+      "referenceNote": "Modelo completo calibrado para 20 cm de largura, incluindo prato ou base quando presentes. Escala física no aparelho ainda não medida.",
       "assets": {
-        "poster": "./assets/posters/prato-executivo.webp"
+        "poster": "./assets/posters/hot-dog-v03.webp",
+        "glb": "./assets/models/hot-dog-v03.glb",
+        "usdz": "./assets/models/hot-dog-v03.usdz"
+      },
+      "physical": {
+        "widthM": 0.2,
+        "heightM": 0.058136094361543655,
+        "depthM": 0.06586579978466034,
+        "upAxis": "Y",
+        "unit": "meter",
+        "grounded": true,
+        "referenceStatus": "calibrated",
+        "deviceValidation": "pending"
+      },
+      "production": {
+        "method": "photogrammetry-edited"
+      },
+      "license": {
+        "spdx": "CC-BY-4.0",
+        "source": "https://sketchfab.com/3d-models/091345bcc34f4e95a85843e551eadbe7",
+        "url": "https://creativecommons.org/licenses/by/4.0/",
+        "credit": "Hotdog lowpoly (7k tris) 3D scan, Xeverian / Sketchfab; CC BY 4.0. Geometria reduzida, texturas otimizadas e escala normalizada pela OT. Materiais PBR ajustados quando necessário, normais reconstruídas, imagens derivadas e conversão USDZ pela OT.",
+        "author": "Xeverian",
+        "verified": "2026-11-27"
+      }
+    },
+    {
+      "id": "taco",
+      "name": "Taco artesanal",
+      "category": "lanches",
+      "status": "ready",
+      "priceCents": 2490,
+      "description": "Casquinha crocante e recheio generoso em uma apresentação tridimensional.",
+      "imageAlt": "Taco artesanal — imagem renderizada do modelo 3D",
+      "referenceNote": "Modelo completo calibrado para 18 cm de largura, incluindo prato ou base quando presentes. Escala física no aparelho ainda não medida.",
+      "assets": {
+        "poster": "./assets/posters/taco-v03.webp",
+        "glb": "./assets/models/taco-v03.glb",
+        "usdz": "./assets/models/taco-v03.usdz"
+      },
+      "physical": {
+        "widthM": 0.18,
+        "heightM": 0.0984540805220604,
+        "depthM": 0.03707188367843628,
+        "upAxis": "Y",
+        "unit": "meter",
+        "grounded": true,
+        "referenceStatus": "calibrated",
+        "deviceValidation": "pending"
+      },
+      "production": {
+        "method": "photogrammetry-edited"
+      },
+      "license": {
+        "spdx": "CC-BY-4.0",
+        "source": "https://sketchfab.com/3d-models/5b8095131eca4914b6dce4e96b290a3f",
+        "url": "https://creativecommons.org/licenses/by/4.0/",
+        "credit": "Taco, John Redden / Sketchfab; CC BY 4.0. Geometria reduzida, texturas otimizadas e escala normalizada pela OT. Materiais PBR ajustados quando necessário, normais reconstruídas, imagens derivadas e conversão USDZ pela OT.",
+        "author": "John Redden",
+        "verified": "2026-11-27"
+      }
+    },
+    {
+      "id": "pizza-aspargos",
+      "name": "Pizza de aspargos e presunto",
+      "category": "pizzas",
+      "status": "ready",
+      "priceCents": 5990,
+      "description": "Aspargos, presunto e queijo sobre massa dourada. Apresentação com a base original do escaneamento.",
+      "imageAlt": "Pizza de aspargos e presunto — imagem renderizada do modelo 3D",
+      "referenceNote": "Modelo completo calibrado para 30 cm de largura, incluindo prato ou base quando presentes. Escala física no aparelho ainda não medida.",
+      "assets": {
+        "poster": "./assets/posters/pizza-aspargos-v03.webp",
+        "glb": "./assets/models/pizza-aspargos-v03.glb",
+        "usdz": "./assets/models/pizza-aspargos-v03.usdz"
+      },
+      "physical": {
+        "widthM": 0.3,
+        "heightM": 0.05468425899744034,
+        "depthM": 0.3000905215740204,
+        "upAxis": "Y",
+        "unit": "meter",
+        "grounded": true,
+        "referenceStatus": "calibrated",
+        "deviceValidation": "pending"
+      },
+      "production": {
+        "method": "photogrammetry-edited"
+      },
+      "license": {
+        "spdx": "CC-BY-4.0",
+        "source": "https://sketchfab.com/3d-models/58e8ce0a00eb41be92990a92e5bf9b21",
+        "url": "https://creativecommons.org/licenses/by/4.0/",
+        "credit": "アスパラガスと生ハムのピザ_Pizza, Fujihiko Matsumoto / Sketchfab; CC BY 4.0. Geometria reduzida, texturas otimizadas e escala normalizada pela OT. Materiais PBR ajustados quando necessário, normais reconstruídas, imagens derivadas e conversão USDZ pela OT.",
+        "author": "Fujihiko Matsumoto",
+        "verified": "2026-11-27"
+      }
+    },
+    {
+      "id": "pizza-especial",
+      "name": "Pizza especial da casa",
+      "category": "pizzas",
+      "status": "ready",
+      "priceCents": 6490,
+      "description": "Uma pizza de cobertura generosa, com presunto, cogumelos, milho e ervas.",
+      "imageAlt": "Pizza especial da casa — imagem renderizada do modelo 3D",
+      "referenceNote": "Modelo completo calibrado para 30 cm de largura, incluindo prato ou base quando presentes. Escala física no aparelho ainda não medida.",
+      "assets": {
+        "poster": "./assets/posters/pizza-especial-v03.webp",
+        "glb": "./assets/models/pizza-especial-v03.glb",
+        "usdz": "./assets/models/pizza-especial-v03.usdz"
+      },
+      "physical": {
+        "widthM": 0.3,
+        "heightM": 0.020158881321549416,
+        "depthM": 0.2955566346645355,
+        "upAxis": "Y",
+        "unit": "meter",
+        "grounded": true,
+        "referenceStatus": "calibrated",
+        "deviceValidation": "pending"
+      },
+      "production": {
+        "method": "photogrammetry-edited"
+      },
+      "license": {
+        "spdx": "CC-BY-4.0",
+        "source": "https://sketchfab.com/3d-models/7639f6843cf54925a9a5037385ddfeae",
+        "url": "https://creativecommons.org/licenses/by/4.0/",
+        "credit": "Pizza Photogrammetry, alexpremiumgame / Sketchfab; CC BY 4.0. Geometria reduzida, texturas otimizadas e escala normalizada pela OT. Materiais PBR ajustados quando necessário, normais reconstruídas, imagens derivadas e conversão USDZ pela OT.",
+        "author": "alexpremiumgame",
+        "verified": "2026-11-27"
+      }
+    },
+    {
+      "id": "frango-curry",
+      "name": "Frango ao curry com arroz",
+      "category": "pratos",
+      "status": "ready",
+      "priceCents": 4290,
+      "description": "Arroz no centro, frango ao curry e acompanhamentos coloridos em um prato completo.",
+      "imageAlt": "Frango ao curry com arroz — imagem renderizada do modelo 3D",
+      "referenceNote": "Modelo completo calibrado para 28 cm de largura, incluindo prato ou base quando presentes. Escala física no aparelho ainda não medida.",
+      "assets": {
+        "poster": "./assets/posters/frango-curry-v03.webp",
+        "glb": "./assets/models/frango-curry-v03.glb",
+        "usdz": "./assets/models/frango-curry-v03.usdz"
       },
       "physical": {
         "widthM": 0.28,
+        "heightM": 0.06887595355510712,
+        "depthM": 0.28082722425460815,
         "upAxis": "Y",
         "unit": "meter",
-        "grounded": false,
-        "referenceStatus": "planned",
+        "grounded": true,
+        "referenceStatus": "calibrated",
         "deviceValidation": "pending"
+      },
+      "production": {
+        "method": "photogrammetry-edited"
+      },
+      "license": {
+        "spdx": "CC-BY-4.0",
+        "source": "https://sketchfab.com/3d-models/26768946304e4d5091c1b78e78b57545",
+        "url": "https://creativecommons.org/licenses/by/4.0/",
+        "credit": "Wagamama chicken raisukaree, alban / Sketchfab; CC BY 4.0. Geometria reduzida, texturas otimizadas e escala normalizada pela OT. Materiais PBR ajustados quando necessário, normais reconstruídas, imagens derivadas e conversão USDZ pela OT.",
+        "author": "alban",
+        "verified": "2026-11-27"
+      }
+    },
+    {
+      "id": "bife-tabua",
+      "name": "Bife grelhado na tábua",
+      "category": "pratos",
+      "status": "ready",
+      "priceCents": 6990,
+      "description": "Corte bovino grelhado servido sobre tábua. A referência de largura inclui a apresentação.",
+      "imageAlt": "Bife grelhado na tábua — imagem renderizada do modelo 3D",
+      "referenceNote": "Modelo completo calibrado para 32 cm de largura, incluindo prato ou base quando presentes. Escala física no aparelho ainda não medida.",
+      "assets": {
+        "poster": "./assets/posters/bife-tabua-v03.webp",
+        "glb": "./assets/models/bife-tabua-v03.glb",
+        "usdz": "./assets/models/bife-tabua-v03.usdz"
+      },
+      "physical": {
+        "widthM": 0.32,
+        "heightM": 0.06257954984903336,
+        "depthM": 0.209417462348938,
+        "upAxis": "Y",
+        "unit": "meter",
+        "grounded": true,
+        "referenceStatus": "calibrated",
+        "deviceValidation": "pending"
+      },
+      "production": {
+        "method": "photogrammetry-edited"
+      },
+      "license": {
+        "spdx": "CC-BY-4.0",
+        "source": "https://sketchfab.com/3d-models/0d72ef49ea764361a865207e4d0d8252",
+        "url": "https://creativecommons.org/licenses/by/4.0/",
+        "credit": "Prime rib on wood board, alban / Sketchfab; CC BY 4.0. Geometria reduzida, texturas otimizadas e escala normalizada pela OT. Materiais PBR ajustados quando necessário, normais reconstruídas, imagens derivadas e conversão USDZ pela OT.",
+        "author": "alban",
+        "verified": "2026-11-27"
+      }
+    },
+    {
+      "id": "bife-fatiado",
+      "name": "Bife grelhado fatiado",
+      "category": "pratos",
+      "status": "ready",
+      "priceCents": 7490,
+      "description": "Carne fatiada com osso e miolo rosado, apresentada para observar a textura de perto.",
+      "imageAlt": "Bife grelhado fatiado — imagem renderizada do modelo 3D",
+      "referenceNote": "Modelo completo calibrado para 26 cm de largura, incluindo prato ou base quando presentes. Escala física no aparelho ainda não medida.",
+      "assets": {
+        "poster": "./assets/posters/bife-fatiado-v03.webp",
+        "glb": "./assets/models/bife-fatiado-v03.glb",
+        "usdz": "./assets/models/bife-fatiado-v03.usdz"
+      },
+      "physical": {
+        "widthM": 0.26,
+        "heightM": 0.06684646755456924,
+        "depthM": 0.2656105160713196,
+        "upAxis": "Y",
+        "unit": "meter",
+        "grounded": true,
+        "referenceStatus": "calibrated",
+        "deviceValidation": "pending"
+      },
+      "production": {
+        "method": "photogrammetry-edited"
+      },
+      "license": {
+        "spdx": "CC-BY-4.0",
+        "source": "https://sketchfab.com/3d-models/ba324110e80b4ada8da103497040a9b0",
+        "url": "https://creativecommons.org/licenses/by/4.0/",
+        "credit": "Florence Steak, Alejandro Soriano / Sketchfab; CC BY 4.0. Geometria reduzida, texturas otimizadas e escala normalizada pela OT. Materiais PBR ajustados quando necessário, normais reconstruídas, imagens derivadas e conversão USDZ pela OT.",
+        "author": "Alejandro Soriano",
+        "verified": "2026-11-27"
+      }
+    },
+    {
+      "id": "ricota",
+      "name": "Bolinhas de ricota",
+      "category": "pratos",
+      "status": "ready",
+      "priceCents": 3290,
+      "description": "Bolinhas de ricota com ervas, em uma apresentação de prato para compartilhar.",
+      "imageAlt": "Bolinhas de ricota — imagem renderizada do modelo 3D",
+      "referenceNote": "Modelo completo calibrado para 26 cm de largura, incluindo prato ou base quando presentes. Escala física no aparelho ainda não medida.",
+      "assets": {
+        "poster": "./assets/posters/ricota-v03.webp",
+        "glb": "./assets/models/ricota-v03.glb",
+        "usdz": "./assets/models/ricota-v03.usdz"
+      },
+      "physical": {
+        "widthM": 0.26,
+        "heightM": 0.05341336503624916,
+        "depthM": 0.2600163519382477,
+        "upAxis": "Y",
+        "unit": "meter",
+        "grounded": true,
+        "referenceStatus": "calibrated",
+        "deviceValidation": "pending"
+      },
+      "production": {
+        "method": "photogrammetry-edited"
+      },
+      "license": {
+        "spdx": "CC-BY-4.0",
+        "source": "https://sketchfab.com/3d-models/8c67b683b0904d73aed7eeffb7477328",
+        "url": "https://creativecommons.org/licenses/by/4.0/",
+        "credit": "Ricotta Balls, Terrie Simmons-Ehrhardt / Sketchfab; CC BY 4.0. Geometria reduzida, texturas otimizadas e escala normalizada pela OT. Materiais PBR ajustados quando necessário, normais reconstruídas, imagens derivadas e conversão USDZ pela OT.",
+        "author": "Terrie Simmons-Ehrhardt",
+        "verified": "2026-11-27"
+      }
+    },
+    {
+      "id": "sushi",
+      "name": "Seleção de sushi",
+      "category": "pratos",
+      "status": "ready",
+      "priceCents": 4590,
+      "description": "Peças de sushi sobre tábua de madeira. A dimensão de referência corresponde ao conjunto.",
+      "imageAlt": "Seleção de sushi — imagem renderizada do modelo 3D",
+      "referenceNote": "Modelo completo calibrado para 28 cm de largura, incluindo prato ou base quando presentes. Escala física no aparelho ainda não medida.",
+      "assets": {
+        "poster": "./assets/posters/sushi-v03.webp",
+        "glb": "./assets/models/sushi-v03.glb",
+        "usdz": "./assets/models/sushi-v03.usdz"
+      },
+      "physical": {
+        "widthM": 0.28,
+        "heightM": 0.05201907828450203,
+        "depthM": 0.4635237157344818,
+        "upAxis": "Y",
+        "unit": "meter",
+        "grounded": true,
+        "referenceStatus": "calibrated",
+        "deviceValidation": "pending"
+      },
+      "production": {
+        "method": "photogrammetry-edited"
+      },
+      "license": {
+        "spdx": "CC-BY-4.0",
+        "source": "https://sketchfab.com/3d-models/09e0ad42f8af4fc9b5ff7816f523a7ce",
+        "url": "https://creativecommons.org/licenses/by/4.0/",
+        "credit": "Sushi, ikreinin / Sketchfab; CC BY 4.0. Geometria reduzida, texturas otimizadas e escala normalizada pela OT. Materiais PBR ajustados quando necessário, normais reconstruídas, imagens derivadas e conversão USDZ pela OT.",
+        "author": "ikreinin",
+        "verified": "2026-11-27"
+      }
+    },
+    {
+      "id": "bolo-cenoura",
+      "name": "Bolo de cenoura com creme",
+      "category": "confeitaria",
+      "status": "ready",
+      "priceCents": 5990,
+      "description": "Bolo inteiro de cenoura, cobertura clara e acabamento rústico de confeitaria.",
+      "imageAlt": "Bolo de cenoura com creme — imagem renderizada do modelo 3D",
+      "referenceNote": "Modelo completo calibrado para 20 cm de largura, incluindo prato ou base quando presentes. Escala física no aparelho ainda não medida.",
+      "assets": {
+        "poster": "./assets/posters/bolo-cenoura-v03.webp",
+        "glb": "./assets/models/bolo-cenoura-v03.glb",
+        "usdz": "./assets/models/bolo-cenoura-v03.usdz"
+      },
+      "physical": {
+        "widthM": 0.2,
+        "heightM": 0.0865693986415863,
+        "depthM": 0.1999664306640625,
+        "upAxis": "Y",
+        "unit": "meter",
+        "grounded": true,
+        "referenceStatus": "calibrated",
+        "deviceValidation": "pending"
+      },
+      "production": {
+        "method": "photogrammetry-edited"
       },
       "license": {
         "spdx": "CC0-1.0",
-        "source": "https://commons.wikimedia.org/wiki/File:Prato_com_arroz_e_feij%C3%A3o,_frango_grelhado,_batata_frita,_salada_e_ovo_frito_como_adicionais.jpg",
+        "source": "https://polyhaven.com/a/carrot_cake",
         "url": "https://creativecommons.org/publicdomain/zero/1.0/",
-        "credit": "Fotografia de Tet / Wikimedia Commons · CC0 1.0. Redimensionada e convertida em WebP; recorte de apresentação no cardápio.",
+        "credit": "Carrot Cake, Greg Zaal e James Ray Cock / Poly Haven; CC0 1.0. Otimizado e calibrado pela OT. Materiais PBR ajustados quando necessário, normais reconstruídas, imagens derivadas e conversão USDZ pela OT.",
+        "author": "Greg Zaal e James Ray Cock",
+        "verified": "2026-11-27"
+      }
+    },
+    {
+      "id": "bolo-chocolate-morangos",
+      "name": "Bolo de chocolate com morangos",
+      "category": "confeitaria",
+      "status": "ready",
+      "priceCents": 8990,
+      "description": "Bolo inteiro com cobertura cremosa, morangos e raspas de chocolate.",
+      "imageAlt": "Bolo de chocolate com morangos — imagem renderizada do modelo 3D",
+      "referenceNote": "Modelo completo calibrado para 20 cm de largura, incluindo prato ou base quando presentes. Escala física no aparelho ainda não medida.",
+      "assets": {
+        "poster": "./assets/posters/bolo-chocolate-morangos-v03.webp",
+        "glb": "./assets/models/bolo-chocolate-morangos-v03.glb",
+        "usdz": "./assets/models/bolo-chocolate-morangos-v03.usdz"
+      },
+      "physical": {
+        "widthM": 0.2,
+        "heightM": 0.06484656780958176,
+        "depthM": 0.19673067331314087,
+        "upAxis": "Y",
+        "unit": "meter",
+        "grounded": true,
+        "referenceStatus": "calibrated",
+        "deviceValidation": "pending"
+      },
+      "production": {
+        "method": "photogrammetry-edited"
+      },
+      "license": {
+        "spdx": "CC0-1.0",
+        "source": "https://polyhaven.com/a/strawberry_chocolate_cake",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "credit": "Strawberry Chocolate Cake, Kuutti Siitonen / Poly Haven; CC0 1.0. Otimizado e calibrado pela OT. Materiais PBR ajustados quando necessário, normais reconstruídas, imagens derivadas e conversão USDZ pela OT.",
+        "author": "Kuutti Siitonen",
+        "verified": "2026-11-27"
+      }
+    },
+    {
+      "id": "pudim",
+      "name": "Pudim artesanal",
+      "category": "confeitaria",
+      "status": "ready",
+      "priceCents": 1990,
+      "description": "Pudim com cobertura caramelizada, apresentado na base original do modelo.",
+      "imageAlt": "Pudim artesanal — imagem renderizada do modelo 3D",
+      "referenceNote": "Modelo completo calibrado para 12 cm de largura, incluindo prato ou base quando presentes. Escala física no aparelho ainda não medida.",
+      "assets": {
+        "poster": "./assets/posters/pudim-v03.webp",
+        "glb": "./assets/models/pudim-v03.glb",
+        "usdz": "./assets/models/pudim-v03.usdz"
+      },
+      "physical": {
+        "widthM": 0.12,
+        "heightM": 0.0343911349773407,
+        "depthM": 0.11999999731779099,
+        "upAxis": "Y",
+        "unit": "meter",
+        "grounded": true,
+        "referenceStatus": "calibrated",
+        "deviceValidation": "pending"
+      },
+      "production": {
+        "method": "photogrammetry-edited"
+      },
+      "license": {
+        "spdx": "CC-BY-4.0",
+        "source": "https://sketchfab.com/3d-models/5aef23e7d08748318c219da5a3257156",
+        "url": "https://creativecommons.org/licenses/by/4.0/",
+        "credit": "The Grove of Hobe Sound - Dessert - Flan, BrandXR / Sketchfab; CC BY 4.0. Geometria reduzida, texturas otimizadas e escala normalizada pela OT. Materiais PBR ajustados quando necessário, normais reconstruídas, imagens derivadas e conversão USDZ pela OT.",
+        "author": "BrandXR",
         "verified": "2026-11-27"
       }
     }

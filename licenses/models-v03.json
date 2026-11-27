@@ -1,0 +1,150 @@
+[
+  {
+    "id": "croissant",
+    "name": "Croissant artesanal",
+    "spdx": "CC0-1.0",
+    "source": "https://polyhaven.com/a/croissant",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "credit": "Dario Barresi e Greg Zaal / Poly Haven · CC0 1.0. Modelo normalizado e texturas otimizadas; imagem derivada do escaneamento.",
+    "verified": "2026-11-27"
+  },
+  {
+    "id": "hamburguer",
+    "name": "Hambúrguer artesanal",
+    "spdx": "CC-BY-4.0",
+    "source": "https://sketchfab.com/3d-models/77ce9161326f4e4b8615bc0d14754837",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "credit": "Burger ProjTest, de pondohva / Sketchfab · CC BY 4.0. Suporte e seção inferior removidos; base plana reconstruída, malha reduzida, texturas otimizadas e escala normalizada pela OT; imagem derivada.",
+    "verified": "2026-11-27"
+  },
+  {
+    "id": "sanduiche-batatas",
+    "name": "Sanduíche especial no prato",
+    "spdx": "CC-BY-4.0",
+    "source": "https://sketchfab.com/3d-models/68ebf6492c9c45688661657bb6aeb320",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "credit": "Sandwichwithfries3, akshaycoc100 / Sketchfab; CC BY 4.0. Geometria reduzida, texturas otimizadas e escala normalizada pela OT. Materiais PBR ajustados quando necessário, normais reconstruídas, imagens derivadas e conversão USDZ pela OT.",
+    "author": "akshaycoc100",
+    "verified": "2026-11-27"
+  },
+  {
+    "id": "hot-dog",
+    "name": "Pão com salsicha",
+    "spdx": "CC-BY-4.0",
+    "source": "https://sketchfab.com/3d-models/091345bcc34f4e95a85843e551eadbe7",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "credit": "Hotdog lowpoly (7k tris) 3D scan, Xeverian / Sketchfab; CC BY 4.0. Geometria reduzida, texturas otimizadas e escala normalizada pela OT. Materiais PBR ajustados quando necessário, normais reconstruídas, imagens derivadas e conversão USDZ pela OT.",
+    "author": "Xeverian",
+    "verified": "2026-11-27"
+  },
+  {
+    "id": "taco",
+    "name": "Taco artesanal",
+    "spdx": "CC-BY-4.0",
+    "source": "https://sketchfab.com/3d-models/5b8095131eca4914b6dce4e96b290a3f",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "credit": "Taco, John Redden / Sketchfab; CC BY 4.0. Geometria reduzida, texturas otimizadas e escala normalizada pela OT. Materiais PBR ajustados quando necessário, normais reconstruídas, imagens derivadas e conversão USDZ pela OT.",
+    "author": "John Redden",
+    "verified": "2026-11-27"
+  },
+  {
+    "id": "pizza-aspargos",
+    "name": "Pizza de aspargos e presunto",
+    "spdx": "CC-BY-4.0",
+    "source": "https://sketchfab.com/3d-models/58e8ce0a00eb41be92990a92e5bf9b21",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "credit": "アスパラガスと生ハムのピザ_Pizza, Fujihiko Matsumoto / Sketchfab; CC BY 4.0. Geometria reduzida, texturas otimizadas e escala normalizada pela OT. Materiais PBR ajustados quando necessário, normais reconstruídas, imagens derivadas e conversão USDZ pela OT.",
+    "author": "Fujihiko Matsumoto",
+    "verified": "2026-11-27"
+  },
+  {
+    "id": "pizza-especial",
+    "name": "Pizza especial da casa",
+    "spdx": "CC-BY-4.0",
+    "source": "https://sketchfab.com/3d-models/7639f6843cf54925a9a5037385ddfeae",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "credit": "Pizza Photogrammetry, alexpremiumgame / Sketchfab; CC BY 4.0. Geometria reduzida, texturas otimizadas e escala normalizada pela OT. Materiais PBR ajustados quando necessário, normais reconstruídas, imagens derivadas e conversão USDZ pela OT.",
+    "author": "alexpremiumgame",
+    "verified": "2026-11-27"
+  },
+  {
+    "id": "frango-curry",
+    "name": "Frango ao curry com arroz",
+    "spdx": "CC-BY-4.0",
+    "source": "https://sketchfab.com/3d-models/26768946304e4d5091c1b78e78b57545",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "credit": "Wagamama chicken raisukaree, alban / Sketchfab; CC BY 4.0. Geometria reduzida, texturas otimizadas e escala normalizada pela OT. Materiais PBR ajustados quando necessário, normais reconstruídas, imagens derivadas e conversão USDZ pela OT.",
+    "author": "alban",
+    "verified": "2026-11-27"
+  },
+  {
+    "id": "bife-tabua",
+    "name": "Bife grelhado na tábua",
+    "spdx": "CC-BY-4.0",
+    "source": "https://sketchfab.com/3d-models/0d72ef49ea764361a865207e4d0d8252",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "credit": "Prime rib on wood board, alban / Sketchfab; CC BY 4.0. Geometria reduzida, texturas otimizadas e escala normalizada pela OT. Materiais PBR ajustados quando necessário, normais reconstruídas, imagens derivadas e conversão USDZ pela OT.",
+    "author": "alban",
+    "verified": "2026-11-27"
+  },
+  {
+    "id": "bife-fatiado",
+    "name": "Bife grelhado fatiado",
+    "spdx": "CC-BY-4.0",
+    "source": "https://sketchfab.com/3d-models/ba324110e80b4ada8da103497040a9b0",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "credit": "Florence Steak, Alejandro Soriano / Sketchfab; CC BY 4.0. Geometria reduzida, texturas otimizadas e escala normalizada pela OT. Materiais PBR ajustados quando necessário, normais reconstruídas, imagens derivadas e conversão USDZ pela OT.",
+    "author": "Alejandro Soriano",
+    "verified": "2026-11-27"
+  },
+  {
+    "id": "ricota",
+    "name": "Bolinhas de ricota",
+    "spdx": "CC-BY-4.0",
+    "source": "https://sketchfab.com/3d-models/8c67b683b0904d73aed7eeffb7477328",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "credit": "Ricotta Balls, Terrie Simmons-Ehrhardt / Sketchfab; CC BY 4.0. Geometria reduzida, texturas otimizadas e escala normalizada pela OT. Materiais PBR ajustados quando necessário, normais reconstruídas, imagens derivadas e conversão USDZ pela OT.",
+    "author": "Terrie Simmons-Ehrhardt",
+    "verified": "2026-11-27"
+  },
+  {
+    "id": "sushi",
+    "name": "Seleção de sushi",
+    "spdx": "CC-BY-4.0",
+    "source": "https://sketchfab.com/3d-models/09e0ad42f8af4fc9b5ff7816f523a7ce",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "credit": "Sushi, ikreinin / Sketchfab; CC BY 4.0. Geometria reduzida, texturas otimizadas e escala normalizada pela OT. Materiais PBR ajustados quando necessário, normais reconstruídas, imagens derivadas e conversão USDZ pela OT.",
+    "author": "ikreinin",
+    "verified": "2026-11-27"
+  },
+  {
+    "id": "bolo-cenoura",
+    "name": "Bolo de cenoura com creme",
+    "spdx": "CC0-1.0",
+    "source": "https://polyhaven.com/a/carrot_cake",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "credit": "Carrot Cake, Greg Zaal e James Ray Cock / Poly Haven; CC0 1.0. Otimizado e calibrado pela OT. Materiais PBR ajustados quando necessário, normais reconstruídas, imagens derivadas e conversão USDZ pela OT.",
+    "author": "Greg Zaal e James Ray Cock",
+    "verified": "2026-11-27"
+  },
+  {
+    "id": "bolo-chocolate-morangos",
+    "name": "Bolo de chocolate com morangos",
+    "spdx": "CC0-1.0",
+    "source": "https://polyhaven.com/a/strawberry_chocolate_cake",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "credit": "Strawberry Chocolate Cake, Kuutti Siitonen / Poly Haven; CC0 1.0. Otimizado e calibrado pela OT. Materiais PBR ajustados quando necessário, normais reconstruídas, imagens derivadas e conversão USDZ pela OT.",
+    "author": "Kuutti Siitonen",
+    "verified": "2026-11-27"
+  },
+  {
+    "id": "pudim",
+    "name": "Pudim artesanal",
+    "spdx": "CC-BY-4.0",
+    "source": "https://sketchfab.com/3d-models/5aef23e7d08748318c219da5a3257156",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "credit": "The Grove of Hobe Sound - Dessert - Flan, BrandXR / Sketchfab; CC BY 4.0. Geometria reduzida, texturas otimizadas e escala normalizada pela OT. Materiais PBR ajustados quando necessário, normais reconstruídas, imagens derivadas e conversão USDZ pela OT.",
+    "author": "BrandXR",
+    "verified": "2026-11-27"
+  }
+]

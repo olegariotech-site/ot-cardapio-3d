@@ -1,11 +1,12 @@
-import {validateCatalog,currency,VERSION} from './asset-policy.js?v=0.2.0';
-import {createExperience} from './experience.js?v=0.2.0';
+import {validateCatalog,currency,VERSION} from './asset-policy.js?v=0.3.0';
+import {createExperience} from './experience.js?v=0.3.0';
 const $=id=>document.getElementById(id),dialog=$('experience');
 let catalog,selectedIndex=0,opener;
-const categoryNames={padaria:'Padaria',lanches:'Lanches',pizzas:'Pizzas',pratos:'Pratos'};
+const categoryNames={padaria:'Padaria',lanches:'Lanches',pizzas:'Pizzas',pratos:'Pratos',confeitaria:'Confeitaria',bebidas:'Bebidas'};
 const controller=createExperience(locked=>{for(const id of ['close-product','previous-product','next-product'])$(id).disabled=locked;});
 function rowsMatch(products){return [...document.querySelectorAll('.menu-item')].map(x=>x.dataset.product).join(',')===products.map(p=>p.id).join(',');}
 function bindProducts(){
+ for(const a of document.querySelectorAll("[data-open-image]"))a.addEventListener("click",e=>{e.preventDefault();opener=a;openProduct(catalog.products.findIndex(p=>p.id===a.dataset.openImage),e);});
  for(const button of document.querySelectorAll('[data-open-product]')){button.disabled=false;button.addEventListener('click',e=>{opener=button;openProduct(catalog.products.findIndex(p=>p.id===button.dataset.openProduct),e);});}
 }
 function openProduct(index,event){

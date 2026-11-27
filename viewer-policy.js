@@ -20,7 +20,9 @@ export function applyARMode(viewer, mode, usdz, scaleMode='real') {
 }
 
 export function cameraFor(product){
-  const factor=product.physical.widthM/0.2;
+  const w=product.physical.widthM;
+  const extent=['croissant','hamburguer'].includes(product.id)?w:Math.max(w,product.physical.depthM||w,(product.physical.heightM||0)*1.5);
+  const factor=extent/0.2;
   return {...CAMERA,min:`auto 35deg ${(.36*factor).toFixed(5)}m`,max:`auto 85deg ${(.48*factor).toFixed(5)}m`};
 }
 
@@ -52,7 +54,7 @@ export function observeNativeLaunch(action,onAnchor) {
 export function localDiagnostics() {
   const ua=navigator.userAgent;
   const browser=/EdgA\//.test(ua)?'Edge Android':/Edg\//.test(ua)?'Edge':/CriOS\//.test(ua)?'Chrome iOS':/Chrome\//.test(ua)?'Chrome':/Safari\//.test(ua)?'Safari':'Outro navegador';
-  const data={version:'0.2.0',productId:null,scaleMode:'real',userAgent:ua,browser,devicePixelRatio:window.devicePixelRatio,viewport:{width:innerWidth,height:innerHeight},hardwareConcurrency:navigator.hardwareConcurrency??null,deviceMemoryGiB:navigator.deviceMemory??null,requestedMode:'auto',observedMode:null,modeEvidence:null,firstRenderMs:null,tracking:'not-measured',renderScale:null,events:[],physicalValidation:'pending'};
+  const data={version:'0.3.0',productId:null,scaleMode:'real',userAgent:ua,browser,devicePixelRatio:window.devicePixelRatio,viewport:{width:innerWidth,height:innerHeight},hardwareConcurrency:navigator.hardwareConcurrency??null,deviceMemoryGiB:navigator.deviceMemory??null,requestedMode:'auto',observedMode:null,modeEvidence:null,firstRenderMs:null,tracking:'not-measured',renderScale:null,events:[],physicalValidation:'pending'};
   const $=id=>document.getElementById(id);
   $('diag-browser').textContent=browser;
   $('diag-render').textContent=`DPR ${window.devicePixelRatio}; FPS físico não medido`;
