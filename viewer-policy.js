@@ -9,21 +9,27 @@ export const A11Y_PT = Object.freeze({
   'lower-front':'Vista inferior frontal','lower-right':'Vista inferior direita','lower-back':'Vista inferior traseira','lower-left':'Vista inferior esquerda'
 });
 
-export function applyARMode(viewer, mode, usdz) {
+export function applyARMode(viewer, mode, usdz, scaleMode='real') {
   if (!Object.hasOwn(AR_MODES,mode)) throw new Error('Modo de AR inválido');
   viewer.arModes=AR_MODES[mode];
   // ios-src enables Quick Look independently of ar-modes. Clear it in isolated Android tests.
   viewer.iosSrc=(mode==='auto'||mode==='quick-look')?usdz:null;
-  viewer.arScale='fixed';
+  if(!['real','free'].includes(scaleMode))throw Error('Escala inválida');
+  viewer.arScale=scaleMode==='real'?'fixed':'auto';
   viewer.arPlacement='floor';
 }
 
-export function restoreCamera(viewer) {
+export function cameraFor(product){
+  const factor=product.physical.widthM/0.2;
+  return {...CAMERA,min:`auto 35deg ${(.36*factor).toFixed(5)}m`,max:`auto 85deg ${(.48*factor).toFixed(5)}m`};
+}
+
+export function restoreCamera(viewer, camera=CAMERA) {
   viewer.autoRotate=false;
   viewer.resetTurntableRotation();
-  viewer.cameraTarget=CAMERA.target;
-  viewer.cameraOrbit=CAMERA.orbit;
-  viewer.fieldOfView=CAMERA.fov;
+  viewer.cameraTarget=camera.target;
+  viewer.cameraOrbit=camera.orbit;
+  viewer.fieldOfView=camera.fov;
   viewer.jumpCameraToGoal();
 }
 
@@ -46,7 +52,7 @@ export function observeNativeLaunch(action,onAnchor) {
 export function localDiagnostics() {
   const ua=navigator.userAgent;
   const browser=/EdgA\//.test(ua)?'Edge Android':/Edg\//.test(ua)?'Edge':/CriOS\//.test(ua)?'Chrome iOS':/Chrome\//.test(ua)?'Chrome':/Safari\//.test(ua)?'Safari':'Outro navegador';
-  const data={version:'0.1.1',userAgent:ua,browser,devicePixelRatio:window.devicePixelRatio,viewport:{width:innerWidth,height:innerHeight},hardwareConcurrency:navigator.hardwareConcurrency??null,deviceMemoryGiB:navigator.deviceMemory??null,requestedMode:'auto',observedMode:null,modeEvidence:null,firstRenderMs:null,tracking:'not-measured',renderScale:null,events:[],physicalValidation:'pending'};
+  const data={version:'0.2.0',productId:null,scaleMode:'real',userAgent:ua,browser,devicePixelRatio:window.devicePixelRatio,viewport:{width:innerWidth,height:innerHeight},hardwareConcurrency:navigator.hardwareConcurrency??null,deviceMemoryGiB:navigator.deviceMemory??null,requestedMode:'auto',observedMode:null,modeEvidence:null,firstRenderMs:null,tracking:'not-measured',renderScale:null,events:[],physicalValidation:'pending'};
   const $=id=>document.getElementById(id);
   $('diag-browser').textContent=browser;
   $('diag-render').textContent=`DPR ${window.devicePixelRatio}; FPS físico não medido`;
