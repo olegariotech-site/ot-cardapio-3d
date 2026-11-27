@@ -1,4 +1,4 @@
-import {CAMERA,A11Y_PT,applyARMode,restoreCamera,localDiagnostics,observeNativeLaunch} from './viewer-policy.js';
+import {CAMERA,A11Y_PT,applyARMode,restoreCamera,localDiagnostics,observeNativeLaunch} from './viewer-policy.js?v=0.1.1';
 const $=id=>document.getElementById(id);
 const stage=$('stage'),loadButton=$('load-model'),arButton=$('launch-ar'),status=$('status'),progress=$('download-progress');
 const diagnostics=localDiagnostics();
@@ -82,7 +82,7 @@ async function loadModel(event){
   try{
     // Start the engine and catalog together; the model downloads while the engine parses.
     const engineResult=engine().then(()=>null,e=>e);
-    const response=await fetch('./catalog.json',{signal:controller.signal});if(!response.ok)throw Error('catalog-download');
+    const response=await fetch('./catalog.json?v=0.1.1',{signal:controller.signal,cache:'no-cache'});if(!response.ok)throw Error('catalog-download');
     product=validateCatalog(await response.json()).products[0];
     const modelURL=new URL(assetPath(product.assets.glb,'.glb'));if(attempts>1)modelURL.searchParams.set('ot-retry',String(attempts));
     const [engineError]=await Promise.all([engineResult,download(modelURL.href,controller.signal,current)]);
