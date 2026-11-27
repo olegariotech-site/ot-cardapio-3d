@@ -2,52 +2,44 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#050008">
   <meta name="robots" content="noindex,nofollow">
-  <meta name="description" content="Conheça o OT Gastro Lab: explore um alimento em 3D e veja sobre a sua mesa com realidade aumentada em aparelhos compatíveis.">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self' blob: data:; connect-src 'self' blob:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="description" content="OT Gastro Lab: explore um alimento real em 3D e experimente realidade aumentada em celulares compatíveis. Prova de conceito.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; style-src-elem 'self' 'sha256-PXtZZkJMMyc18o/DN1ZEFOJ2qEGq95IQbVaJFMOXOb0='; img-src 'self' blob: data:; connect-src 'self' blob:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
   <title>OT Gastro Lab • Cardápio 3D</title>
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./styles.css">
-  <script type="module" src="./app.js"></script>
+  <link rel="stylesheet" href="./styles.css?v=0.1.1">
+  <script type="module" src="./app.js?v=0.1.1"></script>
 </head>
 <body>
   <a class="skip" href="#experiencia">Ir para a experiência</a>
-  <header class="topbar wrap">
-    <a class="wordmark" href="./" aria-label="Olegario Tech Gastro Lab"><strong>OLEGARIO<span>TECH</span></strong><small>GASTRO LAB</small></a>
-    <span class="version"><i></i> LAB / V0.1</span>
-  </header>
+  <header class="topbar wrap"><a class="wordmark" href="./" aria-label="Olegario Tech Gastro Lab"><strong>OLEGARIO<span>TECH</span></strong><small>GASTRO LAB</small></a><span class="version"><i></i> V0.1.1 / LAB</span></header>
   <main class="wrap">
-    <section class="intro" aria-labelledby="titulo">
-      <p class="eyebrow">O PRÓXIMO SABOR COMEÇA COM UM OLHAR</p>
-      <h1 id="titulo">Antes de pedir,<br>veja <em>de perto.</em></h1>
-      <p class="lead">Gire, descubra os detalhes e leve o prato à sua mesa.<br class="desktop"> Uma experiência da Olegario Tech para despertar o apetite.</p>
-    </section>
+    <section class="intro" aria-labelledby="titulo"><p class="eyebrow">O SABOR COMEÇA COM UM OLHAR</p><h1 id="titulo">Antes de pedir,<br>veja <em>de perto.</em></h1><p class="lead">Explore em 360°. Veja na sua mesa.</p></section>
     <section class="experience" id="experiencia" aria-label="Experiência com croissant em 3D">
       <div class="stage" id="stage" aria-busy="false">
-        <div class="stage-top"><span class="pill">01 / PADARIA ARTESANAL</span><span class="dimension">20 cm <span>de largura</span></span></div>
-        <img class="poster" id="poster" src="./assets/posters/croissant.webp" width="960" height="720" alt="Croissant dourado com camadas de massa folhada, renderizado do modelo tridimensional">
-        <div id="viewer-host"></div>
-        <div class="start" id="start-panel"><button class="button primary" id="load-model" type="button"><span aria-hidden="true">◈</span> Explorar em 3D <span aria-hidden="true">→</span></button><span>Interativo. Cada detalhe, de todos os ângulos.</span></div>
-        <div class="viewer-controls" id="viewer-controls" hidden><button id="rotate" class="round" type="button" aria-label="Girar o alimento 90 graus">↻</button><button id="spin" class="round spin" type="button" aria-pressed="false">Giro automático</button><button id="reset" class="round" type="button" aria-label="Restaurar a vista inicial">↺</button></div>
-        <div class="stage-bottom"><span><i></i> ALIMENTO REAL DIGITALIZADO</span><span id="interaction-hint">3D + REALIDADE AUMENTADA</span></div>
+        <div class="stage-top"><span class="pill">01 / PADARIA ARTESANAL</span><span class="dimension">20 cm <span>largura de referência</span></span></div>
+        <div class="viewport" id="viewport">
+          <img class="poster" id="poster" src="./assets/posters/croissant.webp" width="960" height="720" alt="Croissant dourado, renderizado do modelo tridimensional">
+          <div id="viewer-host"></div>
+          <div class="start" id="start-panel"><button class="button primary" id="load-model" type="button">Explorar em 3D <span aria-hidden="true">→</span></button><span id="download-label">Um alimento real. Todos os ângulos.</span><progress id="download-progress" aria-label="Download do alimento" hidden></progress></div>
+        </div>
+        <div class="viewer-controls" id="viewer-controls" hidden><button id="rotate" type="button" aria-label="Girar o alimento 90 graus">↻ <span>Girar</span></button><button id="spin" type="button" aria-pressed="false">Giro automático</button><button id="reset" type="button" aria-label="Restaurar a vista inicial">↺ <span>Restaurar</span></button></div>
+        <p class="interaction-hint" id="interaction-hint">Imagem do alimento · toque para explorar</p>
+        <div class="ar-action"><button class="button ar-button" id="launch-ar" type="button" disabled><span aria-hidden="true">⌗</span> Ver na minha mesa <span aria-hidden="true">→</span></button><p id="ar-help">Disponível após carregar o 3D, em celulares compatíveis.</p></div>
+        <p class="status" id="status" role="status" aria-live="polite">Toque em “Explorar em 3D” para começar.</p>
       </div>
       <div class="product">
-        <p class="eyebrow warm">SELEÇÃO GASTRO LAB</p>
-        <h2>Croissant<br>artesanal.</h2>
-        <p class="description">Casquinha dourada, camadas delicadas e aquele convite para o primeiro café do dia. Explore a textura por todos os lados.</p>
-        <div class="specs"><div><span>EXPERIÊNCIA</span><strong>360° de sabor</strong></div><div><span>ESCALA DE REFERÊNCIA</span><strong>20 cm de largura</strong></div></div>
-        <p class="status" id="status" role="status" aria-live="polite">Toque em “Explorar em 3D” para começar.</p>
-        <button class="button ar-button" id="launch-ar" type="button" disabled><span aria-hidden="true">⌗</span> Ver na minha mesa <span aria-hidden="true">→</span></button>
-        <p class="ar-help" id="ar-help">Disponível após carregar o 3D, em celulares compatíveis.</p>
-        <details class="instructions"><summary>Como funciona na sua mesa</summary><ol><li>Abra em um celular compatível e permita o acesso à câmera quando solicitado.</li><li>Aponte para uma mesa bem iluminada e mova o aparelho devagar.</li><li>Aguarde a detecção da superfície. Toque para posicionar e caminhe ao redor.</li></ol><p>Sem suporte à realidade aumentada? Continue explorando o alimento em 3D. A escala usa a medida de referência do modelo e pode variar com o rastreamento do aparelho.</p></details>
-        <noscript><p class="status">Ative o JavaScript para explorar em 3D. A imagem e as informações do alimento continuam disponíveis.</p></noscript>
+        <p class="eyebrow warm">SELEÇÃO GASTRO LAB</p><h2>Croissant artesanal.</h2><p class="description">Casquinha dourada e camadas delicadas. Descubra a textura antes da primeira mordida.</p>
+        <div class="specs"><span>360° para explorar</span><span>Referência de 20 cm</span></div>
+        <details class="instructions"><summary>Como usar na sua mesa</summary><ol><li>Permita o acesso à câmera quando solicitado.</li><li>Aponte para uma mesa bem iluminada. Mova o celular devagar e aguarde a superfície.</li><li>Posicione o alimento e observe de outros ângulos. O zoom do 3D não muda a medida do modelo.</li></ol><p>A escala usa uma medida de referência. A conferência com régua e os testes de estabilidade ainda são necessários.</p></details>
+        <details class="diagnostics" id="diagnostics"><summary>Teste de realidade aumentada</summary><p class="small">Registro local para a homologação. Nenhuma informação é enviada.</p><label for="ar-mode">Modo para esta tentativa</label><select id="ar-mode"><option value="auto">Automático</option><option value="webxr">Somente WebXR</option><option value="scene-viewer">Somente Scene Viewer</option><option value="quick-look">Somente Quick Look</option></select><p class="small">Use Chrome e Edge no Android para comparar. O teste no iPhone continua pendente.</p><dl><div><dt>Navegador</dt><dd id="diag-browser">—</dd></div><div><dt>Primeiro 3D</dt><dd id="diag-load">Ainda não carregado</dd></div><div><dt>AR observada</dt><dd id="diag-mode">Nenhuma sessão iniciada</dd></div><div><dt>Rastreamento</dt><dd id="diag-tracking">Não medido</dd></div><div><dt>Renderização</dt><dd id="diag-render">—</dd></div></dl><button type="button" class="secondary" id="copy-diagnostics">Preparar relatório local</button><textarea id="diagnostic-report" readonly aria-label="Relatório local para copiar" hidden></textarea></details>
+        <noscript><p class="status">Ative o JavaScript para explorar em 3D. A imagem e as informações continuam disponíveis.</p></noscript>
       </div>
     </section>
-    <section class="journey" aria-label="Passos da experiência"><div><span>01</span><p><strong>Explore.</strong> Gire o alimento e descubra sua textura.</p></div><div><span>02</span><p><strong>Posicione.</strong> Veja o tamanho de referência na sua mesa.</p></div><div><span>03</span><p><strong>Imagine.</strong> A experiência começa antes da primeira garfada.</p></div></section>
-    <aside class="lab-note"><span class="pill">PROVA DE CONCEITO</span><p>Um laboratório próprio da OT para o futuro dos cardápios. Produto e descrição ilustrativos; não há pedidos ou venda de alimentos nesta demonstração.</p></aside>
+    <aside class="lab-note"><span class="pill">PROVA DE CONCEITO</span><p>Experiência da OLEGARIO TECH. Produto ilustrativo, sem pedidos. Escala e estabilidade aguardam nova homologação física.</p></aside>
   </main>
-  <footer class="wrap"><p>OLEGARIO TECH <span>Conhecimento que vira ação.</span></p><p>Modelo: <a href="https://polyhaven.com/a/croissant" target="_blank" rel="noopener noreferrer">Poly Haven · CC0</a> <span>Powered by Poly Haven</span></p></footer>
+  <footer class="wrap"><p>OLEGARIO TECH <span>Conhecimento que vira ação.</span></p><p>Modelo: <a href="https://polyhaven.com/a/croissant" target="_blank" rel="noopener noreferrer">Poly Haven · CC0</a></p></footer>
 </body>
 </html>
