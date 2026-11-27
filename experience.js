@@ -1,5 +1,5 @@
-import {CAMERA,cameraFor,A11Y_PT,applyARMode,restoreCamera,localDiagnostics,observeNativeLaunch} from './viewer-policy.js?v=0.2.0';
-import {assetPath} from './asset-policy.js?v=0.2.0';
+import {CAMERA,cameraFor,A11Y_PT,applyARMode,restoreCamera,localDiagnostics,observeNativeLaunch} from './viewer-policy.js?v=0.3.0';
+import {assetPath} from './asset-policy.js?v=0.3.0';
 export function createExperience(onLock=()=>{}){
 const $=id=>document.getElementById(id);
 const stage=$('stage'),loadButton=$('load-model'),arButton=$('launch-ar'),status=$('status'),progress=$('download-progress');
