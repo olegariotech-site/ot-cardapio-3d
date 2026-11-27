@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "tenantId": "ot-gastro-lab",
+  "brand": {"name": "OT Gastro Lab", "owner": "OLEGARIO TECH"},
+  "products": [{
+    "id": "croissant", "name": "Croissant artesanal", "category": "padaria", "status": "ready",
+    "assets": {"glb": "./assets/models/croissant.glb", "usdz": "./assets/models/croissant.usdz", "poster": "./assets/posters/croissant.webp"},
+    "physical": {"widthM": 0.2, "upAxis": "Y", "unit": "meter", "grounded": true, "reference": "Poly Haven croissant, 20 cm; geometria normalizada", "deviceValidation": "pending"},
+    "license": {"spdx": "CC0-1.0", "source": "https://polyhaven.com/a/croissant", "authors": ["Dario Barresi", "Greg Zaal"], "verified": "2026-11-27"}
+  }]
+}
